@@ -201,21 +201,74 @@ function Index() {
       </section>
 
       <section id="offer" className="bg-sky-soft px-5 py-20 sm:px-6 sm:py-24">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-5xl text-center">
           <p className="font-display text-2xl font-semibold text-primary">My Little Bible Adventures</p>
           <h2 className="mt-4 font-display text-4xl font-bold sm:text-5xl">Bring Bible Animals home today.</h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-muted-foreground">One beautiful book. Five stories. Countless little moments to color, learn, and grow together.</p>
-          <div className="mx-auto mt-9 max-w-md rounded-3xl bg-background p-7 shadow-xl sm:p-9">
-            <p className="text-sm font-bold uppercase text-primary">Choose your currency</p>
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="rounded-xl border-2 border-primary bg-sky-soft px-4 py-3 font-display text-2xl font-bold">$5.90 <span className="block font-body text-xs font-semibold text-muted-foreground">USD</span></div>
-              <div className="rounded-xl border border-border px-4 py-3 font-display text-2xl font-bold">€5.90 <span className="block font-body text-xs font-semibold text-muted-foreground">EUR</span></div>
-            </div>
-            <Button variant="sunshine" size="purchase" className="mt-5 w-full">Secure My Copy</Button>
-            <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-muted-foreground">
-              <span className="flex items-center gap-1"><ShieldCheck className="size-4" /> Secure purchase</span>
-              <span className="flex items-center gap-1"><Globe2 className="size-4" /> USD & EUR</span>
-            </div>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">Start with one little book, or bring home the whole collection and give every child a story of their own.</p>
+
+          <div className="mt-8 inline-flex items-center gap-1 rounded-full bg-background p-1 shadow-sm" role="group" aria-label="Choose your currency">
+            {([["usd", "USD"], ["eur", "EUR"]] as const).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setCurrency(value)}
+                aria-pressed={currency === value}
+                className={cn(
+                  "cursor-pointer rounded-full px-5 py-2 text-xs font-bold uppercase transition-colors",
+                  currency === value ? "bg-primary text-primary-foreground shadow" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-9 grid items-stretch gap-6 text-left md:grid-cols-2">
+            <article className="flex flex-col rounded-3xl bg-background p-7 shadow-xl sm:p-9">
+              <p className="text-sm font-bold uppercase text-primary">Option one</p>
+              <h3 className="mt-2 font-display text-2xl font-bold">One Little Adventure</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">One booklet with many pages to color, learn, and explore — a gentle way to begin.</p>
+              <p className="mt-6 font-display text-5xl font-bold leading-none">{price(7.9, 7.9)}</p>
+              <p className="mt-2 text-xs font-semibold uppercase text-muted-foreground">One-time payment · also {altPrice(7.9, 7.9)}</p>
+              <ul className="mt-7 space-y-3 text-sm leading-6">
+                {["1 Bible Animals booklet", "Many coloring pages inside", "Five stories to read together", "Perfect for trying it at home"].map((item) => (
+                  <li key={item} className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-3" /></span>{item}</li>
+                ))}
+              </ul>
+              <Button variant="outline" size="purchase" className="mt-8 w-full">Get 1 Book — {price(7.9, 7.9)}</Button>
+            </article>
+
+            <article className="relative flex flex-col rounded-3xl border-2 border-primary bg-background p-7 pb-9 shadow-2xl sm:p-9">
+              <span className="absolute -top-4 left-7 rounded-full bg-accent px-4 py-1.5 text-xs font-bold uppercase text-accent-foreground shadow-lg">Best value</span>
+              <p className="text-sm font-bold uppercase text-primary">Option two</p>
+              <h3 className="mt-2 font-display text-2xl font-bold">The Five-Book Collection</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">Five booklets plus bonus printables — one for each child, one to share, one to keep.</p>
+              <p className="mt-6 flex flex-wrap items-end gap-x-3 gap-y-1">
+                <span className="font-display text-5xl font-bold leading-none">{price(15.8, 15.8)}</span>
+                <span className="pb-1.5 text-base font-semibold text-muted-foreground line-through">{price(39.5, 39.5)}</span>
+              </p>
+              <p className="mt-3 inline-flex w-fit items-center gap-2 rounded-full bg-success-soft px-3 py-1.5 text-xs font-bold uppercase text-success"><Tag className="size-3.5" /> 5 for the price of 2 · Save {price(23.7, 23.7)}</p>
+              <ul className="mt-7 space-y-3 text-sm leading-6">
+                <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-3" /></span>5 complete booklets, each with many pages</li>
+                <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-3" /></span>Everything in the single book, five times over</li>
+                <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/25 text-accent"><Gift className="size-3" /></span>Bonus: printable story-time certificates</li>
+                <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/25 text-accent"><Gift className="size-3" /></span>Bonus: family conversation guide for every story</li>
+                <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/25 text-accent"><Gift className="size-3" /></span>Bonus: extra coloring sheets and printable bookmarks</li>
+              </ul>
+              <Button variant="sunshine" size="purchase" className="mt-8 w-full">Get 5 Books + Bonuses — {price(15.8, 15.8)}</Button>
+              <p className="mt-3 text-center text-xs font-medium text-muted-foreground">Most chosen by families with more than one child, grandparents, and Sunday school teachers.</p>
+            </article>
+          </div>
+
+          <div className="mx-auto mt-10 max-w-3xl rounded-2xl bg-background p-6 shadow-sm">
+            <p className="text-sm font-bold uppercase text-primary">Inside every booklet</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">A Bible story to read together, many pages to color, a verse to remember, and a question to talk about — enough for weeks of small, faith-filled moments.</p>
+          </div>
+
+          <div className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-medium text-muted-foreground">
+            <span className="flex items-center gap-1"><ShieldCheck className="size-4" /> Secure purchase</span>
+            <span className="flex items-center gap-1"><Globe2 className="size-4" /> Pay in USD &amp; EUR</span>
+            <span className="flex items-center gap-1"><Sparkles className="size-4" /> Showing {currencyName} prices</span>
           </div>
         </div>
       </section>
