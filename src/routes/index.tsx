@@ -235,7 +235,9 @@ function Index() {
                   <li key={item} className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-3" /></span>{item}</li>
                 ))}
               </ul>
-              <Button variant="outline" size="purchase" className="mt-8 w-full">Get 1 Book — {price(7.9, 7.9)}</Button>
+              <div className="mt-auto pt-8">
+                <Button variant="outline" size="purchase" className="w-full">Get 1 Book — {price(7.9, 7.9)}</Button>
+              </div>
             </article>
 
             <article className="relative flex flex-col rounded-3xl border-2 border-primary bg-background p-7 pb-9 shadow-2xl sm:p-9">
@@ -255,7 +257,9 @@ function Index() {
                 <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/25 text-accent"><Gift className="size-3" /></span>Bonus: family conversation guide for every story</li>
                 <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/25 text-accent"><Gift className="size-3" /></span>Bonus: extra coloring sheets and printable bookmarks</li>
               </ul>
-              <Button variant="sunshine" size="purchase" className="mt-8 w-full">Get 5 Books + Bonuses — {price(15.8, 15.8)}</Button>
+              <div className="mt-auto pt-8">
+                <Button variant="sunshine" size="purchase" className="w-full">Get 5 Books + Bonuses — {price(15.8, 15.8)}</Button>
+              </div>
               <p className="mt-3 text-center text-xs font-medium text-muted-foreground">Most chosen by families with more than one child, grandparents, and Sunday school teachers.</p>
             </article>
           </div>
