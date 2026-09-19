@@ -275,8 +275,16 @@ function Index() {
               </details>
             ))}
           </div>
+          <div className="mt-12 text-center">
+            <p className="font-display text-2xl font-bold">Still deciding? Start with one book.</p>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">Try it for one quiet afternoon, then bring home the five-book collection when you are ready for a story for every child.</p>
+            <Button asChild variant="sunshine" size="purchase" className="mt-7">
+              <a href="#offer">See the Two Options</a>
+            </Button>
+          </div>
         </div>
       </section>
+
 
       <footer className="bg-footer px-6 py-12 text-center text-footer-foreground">
         <p className="font-display text-2xl font-bold">Small hands. Big faith. Beautiful memories.</p>
