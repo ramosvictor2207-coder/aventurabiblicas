@@ -149,57 +149,6 @@ function Index() {
         </div>
       </section>
 
-      <section className="bg-muted px-6 py-20 sm:py-24">
-        <div className="mx-auto max-w-5xl text-center">
-          <p className="text-sm font-bold uppercase text-primary">Made for real family moments</p>
-          <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">One book, many ways to enjoy it together.</h2>
-          <div className="mt-12 grid gap-10 md:grid-cols-3">
-            {[
-              ["01", "Choose an adventure", "Let your child pick the story or animal that catches their attention first."],
-              ["02", "Color side by side", "Slow down together and bring each scene to life with their favorite colors."],
-              ["03", "Talk about the story", "Ask what they noticed, what they felt, and what the story can teach your family."],
-            ].map(([number, title, copy]) => (
-              <article key={number}>
-                <span className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-primary-foreground">{number}</span>
-                <h3 className="mt-5 font-display text-xl font-bold">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{copy}</p>
-              </article>
-            ))}
-          </div>
-          <Button asChild variant="sunshine" size="purchase" className="mt-12">
-            <a href="#offer">Create Our Faith-Filled Moment — From $7.90</a>
-          </Button>
-        </div>
-      </section>
-
-      <section className="px-6 py-20 sm:py-24">
-        <div className="mx-auto max-w-3xl">
-          <div className="text-center">
-            <p className="text-sm font-bold uppercase text-primary">Questions from parents</p>
-            <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">Everything you may want to know.</h2>
-          </div>
-          <div className="mt-10 divide-y divide-border border-y border-border">
-            {[
-              ["Who is Bible Animals for?", "It is made for parents, grandparents, caregivers, and Christian families who want a creative, faith-centered activity to enjoy with a child."],
-              ["What does the book include?", "Bible Animals brings together five Bible stories with child-friendly illustrations to color, learn from, and explore together."],
-              ["Does my child need to read independently?", "No. The experience is designed to be shared, so an adult can guide the story and conversation while the child enjoys the illustrations and coloring."],
-              ["When can we use it?", "It can fit naturally into quiet afternoons, family time, Sunday activities, travel, or any moment when you want purposeful entertainment away from a screen."],
-              ["Is this a replacement for a children’s Bible?", "No. It is a creative companion for family faith time, designed to spark curiosity and encourage conversations about Bible stories."],
-              ["Which currencies are accepted?", "You can pay in US dollars or euros at the same simple price: $7.90 or €7.90 for one booklet, $15.80 or €15.80 for the five-book collection."],
-              ["What is the difference between the two offers?", "For $7.90 you receive one booklet with many pages to color, learn, and explore. For $15.80 you receive five booklets plus the bonus printables — five for the price of two, so you save $23.70."],
-              ["Why do families choose the five-book collection?", "One booklet per child means no sharing battles, and there is always one ready to give to a cousin, a grandchild, or a family at your church. It works well for Sunday school, travel days, and grandparents' houses."],
-            ].map(([question, answer]) => (
-              <details key={question} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-display text-lg font-bold">
-                  {question}<ChevronDown className="size-5 shrink-0 text-primary transition-transform group-open:rotate-180" />
-                </summary>
-                <p className="max-w-2xl pt-3 text-sm leading-6 text-muted-foreground">{answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section id="offer" className="bg-sky-soft px-5 py-20 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-5xl text-center">
           <p className="font-display text-2xl font-semibold text-primary">My Little Bible Adventures</p>
@@ -277,6 +226,65 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <section className="bg-muted px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-sm font-bold uppercase text-primary">Made for real family moments</p>
+          <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">One book, many ways to enjoy it together.</h2>
+          <div className="mt-12 grid gap-10 md:grid-cols-3">
+            {[
+              ["01", "Choose an adventure", "Let your child pick the story or animal that catches their attention first."],
+              ["02", "Color side by side", "Slow down together and bring each scene to life with their favorite colors."],
+              ["03", "Talk about the story", "Ask what they noticed, what they felt, and what the story can teach your family."],
+            ].map(([number, title, copy]) => (
+              <article key={number}>
+                <span className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-primary-foreground">{number}</span>
+                <h3 className="mt-5 font-display text-xl font-bold">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{copy}</p>
+              </article>
+            ))}
+          </div>
+          <Button asChild variant="sunshine" size="purchase" className="mt-12">
+            <a href="#offer">Create Our Faith-Filled Moment — From $7.90</a>
+          </Button>
+        </div>
+      </section>
+
+      <section className="px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-3xl">
+          <div className="text-center">
+            <p className="text-sm font-bold uppercase text-primary">Questions from parents</p>
+            <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">Everything you may want to know.</h2>
+          </div>
+          <div className="mt-10 divide-y divide-border border-y border-border">
+            {[
+              ["Who is Bible Animals for?", "It is made for parents, grandparents, caregivers, and Christian families who want a creative, faith-centered activity to enjoy with a child."],
+              ["What does the book include?", "Bible Animals brings together five Bible stories with child-friendly illustrations to color, learn from, and explore together."],
+              ["Does my child need to read independently?", "No. The experience is designed to be shared, so an adult can guide the story and conversation while the child enjoys the illustrations and coloring."],
+              ["When can we use it?", "It can fit naturally into quiet afternoons, family time, Sunday activities, travel, or any moment when you want purposeful entertainment away from a screen."],
+              ["Is this a replacement for a children’s Bible?", "No. It is a creative companion for family faith time, designed to spark curiosity and encourage conversations about Bible stories."],
+              ["Which currencies are accepted?", "You can pay in US dollars or euros at the same simple price: $7.90 or €7.90 for one booklet, $15.80 or €15.80 for the five-book collection."],
+              ["What is the difference between the two offers?", "For $7.90 you receive one booklet with many pages to color, learn, and explore. For $15.80 you receive five booklets plus the bonus printables — five for the price of two, so you save $23.70."],
+              ["Why do families choose the five-book collection?", "One booklet per child means no sharing battles, and there is always one ready to give to a cousin, a grandchild, or a family at your church. It works well for Sunday school, travel days, and grandparents' houses."],
+            ].map(([question, answer]) => (
+              <details key={question} className="group py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-display text-lg font-bold">
+                  {question}<ChevronDown className="size-5 shrink-0 text-primary transition-transform group-open:rotate-180" />
+                </summary>
+                <p className="max-w-2xl pt-3 text-sm leading-6 text-muted-foreground">{answer}</p>
+              </details>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <p className="font-display text-2xl font-bold">Still deciding? Start with one book.</p>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">Try it for one quiet afternoon, then bring home the five-book collection when you are ready for a story for every child.</p>
+            <Button asChild variant="sunshine" size="purchase" className="mt-7">
+              <a href="#offer">See the Two Options</a>
+            </Button>
+          </div>
+        </div>
+      </section>
+
 
       <footer className="bg-footer px-6 py-12 text-center text-footer-foreground">
         <p className="font-display text-2xl font-bold">Small hands. Big faith. Beautiful memories.</p>
