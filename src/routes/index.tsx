@@ -235,6 +235,7 @@ function Index() {
                   <li key={item} className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-3" /></span>{item}</li>
                 ))}
               </ul>
+              <p className="mt-5 rounded-xl bg-muted px-4 py-3 text-center text-xs font-semibold text-muted-foreground">A simple first step — perfect for one child or one quiet afternoon.</p>
               <div className="mt-auto pt-8">
                 <Button variant="outline" size="purchase" className="w-full">Get 1 Book — {price(7.9, 7.9)}</Button>
               </div>
