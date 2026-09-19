@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2, Heart, Palette, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { useState } from "react";
+import { BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2, Heart, Palette, ShieldCheck, Sparkles, Tag, Users } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import bannerAsset from "@/assets/bible-animals-banner.png.asset.json";
 
@@ -10,7 +12,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Bible Animals Coloring Book | My Little Bible Adventures" },
-      { name: "description", content: "Five beloved Bible stories to color, learn, and explore for only $5.90 or €5.90." },
+      { name: "description", content: "One Bible Animals booklet for $7.90, or the five-book collection with bonus printables for $15.80. Pay in USD or EUR." },
       { property: "og:title", content: "Bible Animals | My Little Bible Adventures" },
       { property: "og:description", content: "A joyful way to help little hearts discover God's Word through coloring and story." },
       { property: "og:type", content: "website" },
@@ -22,6 +24,11 @@ export const Route = createFileRoute("/")({
 
 // IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [currency, setCurrency] = useState<"usd" | "eur">("usd");
+  const price = (usd: number, eur: number) => (currency === "usd" ? `$${usd.toFixed(2)}` : `€${eur.toFixed(2)}`);
+  const altPrice = (usd: number, eur: number) => (currency === "usd" ? `€${eur.toFixed(2)}` : `$${usd.toFixed(2)}`);
+  const currencyName = currency === "usd" ? "USD" : "EUR";
+
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <header className="px-5 pb-8 pt-10 text-center sm:px-6 sm:pt-14">
@@ -35,7 +42,7 @@ function Index() {
           A joyful coloring adventure that turns five beloved Bible stories into meaningful moments of creativity, curiosity, and faith.
         </p>
         <Button asChild variant="sunshine" size="purchase" className="mt-8">
-          <a href="#offer">Get Bible Animals — $5.90</a>
+          <a href="#offer">Get Bible Animals — From $7.90</a>
         </Button>
       </header>
 
@@ -43,9 +50,9 @@ function Index() {
         <div className="relative">
           <img src={bannerAsset.url} alt="My Little Bible Adventures Bible Animals book collection" className="aspect-[3/2] w-full rounded-3xl object-cover shadow-2xl" />
           <div className="absolute -bottom-7 right-3 rotate-3 rounded-2xl bg-accent p-4 text-accent-foreground shadow-xl sm:right-8 sm:p-6">
-            <p className="text-xs font-bold uppercase">One special price</p>
-            <p className="font-display text-3xl font-bold leading-none sm:text-4xl">$5.90</p>
-            <p className="mt-1 text-xs font-semibold">or €5.90</p>
+            <p className="text-xs font-bold uppercase">Starting at</p>
+            <p className="font-display text-3xl font-bold leading-none sm:text-4xl">$7.90</p>
+            <p className="mt-1 text-xs font-semibold">or €7.90 · 5 books for $15.80</p>
           </div>
         </div>
       </section>
@@ -160,7 +167,7 @@ function Index() {
             ))}
           </div>
           <Button asChild variant="sunshine" size="purchase" className="mt-12">
-            <a href="#offer">Create Our Faith-Filled Moment — $5.90</a>
+            <a href="#offer">Create Our Faith-Filled Moment — From $7.90</a>
           </Button>
         </div>
       </section>
@@ -178,7 +185,9 @@ function Index() {
               ["Does my child need to read independently?", "No. The experience is designed to be shared, so an adult can guide the story and conversation while the child enjoys the illustrations and coloring."],
               ["When can we use it?", "It can fit naturally into quiet afternoons, family time, Sunday activities, travel, or any moment when you want purposeful entertainment away from a screen."],
               ["Is this a replacement for a children’s Bible?", "No. It is a creative companion for family faith time, designed to spark curiosity and encourage conversations about Bible stories."],
-              ["Which currencies are accepted?", "The book is offered at the same simple price in either US dollars or euros: $5.90 or €5.90."],
+              ["Which currencies are accepted?", "You can pay in US dollars or euros at the same simple price: $7.90 or €7.90 for one booklet, $15.80 or €15.80 for the five-book collection."],
+              ["What is the difference between the two offers?", "For $7.90 you receive one booklet with many pages to color, learn, and explore. For $15.80 you receive five booklets plus the bonus printables — five for the price of two, so you save $23.70."],
+              ["Why do families choose the five-book collection?", "One booklet per child means no sharing battles, and there is always one ready to give to a cousin, a grandchild, or a family at your church. It works well for Sunday school, travel days, and grandparents' houses."],
             ].map(([question, answer]) => (
               <details key={question} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-display text-lg font-bold">
