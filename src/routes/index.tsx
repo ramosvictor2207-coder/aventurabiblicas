@@ -257,10 +257,10 @@ function Index() {
                 <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/25 text-accent"><Gift className="size-3" /></span>Bonus: family conversation guide for every story</li>
                 <li className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/25 text-accent"><Gift className="size-3" /></span>Bonus: extra coloring sheets and printable bookmarks</li>
               </ul>
+              <p className="mt-5 rounded-xl bg-sky-soft px-4 py-3 text-center text-xs font-semibold text-primary">Most chosen by families with more than one child, grandparents, and Sunday school teachers.</p>
               <div className="mt-auto pt-8">
                 <Button variant="sunshine" size="purchase" className="w-full">Get 5 Books + Bonuses — {price(15.8, 15.8)}</Button>
               </div>
-              <p className="mt-3 text-center text-xs font-medium text-muted-foreground">Most chosen by families with more than one child, grandparents, and Sunday school teachers.</p>
             </article>
           </div>
 
