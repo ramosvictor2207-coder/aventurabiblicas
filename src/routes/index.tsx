@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BookOpen, Check, Globe2, Heart, Palette, ShieldCheck, Sparkles } from "lucide-react";
+import { BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2, Heart, Palette, ShieldCheck, Sparkles, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import bannerAsset from "@/assets/bible-animals-banner.png.asset.json";
 
@@ -82,6 +82,112 @@ function Index() {
         </div>
         <div className="overflow-hidden rounded-3xl bg-sky-soft p-4 shadow-xl sm:p-7">
           <img src={bannerAsset.url} alt="Bible Animals book with colorful Bible story books and pencils" className="aspect-square w-full rounded-2xl object-cover object-center" />
+        </div>
+      </section>
+
+      <section className="border-y border-border bg-secondary px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-bold uppercase text-primary">For parents who want something better</p>
+            <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-5xl">Entertainment can be fun, creative, and rooted in faith.</h2>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              Finding an activity that holds your child’s attention without losing sight of your family’s values can be difficult. Bible Animals gives you an easy, meaningful option for quiet moments at home.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              [Clock3, "A calmer kind of play", "Offer a colorful activity for afternoons, weekends, travel, or moments when you want less screen time."],
+              [Users, "Time that brings you closer", "Sit together, color the pages, and let each story open a natural conversation about faith."],
+              [Church, "Values you feel good about", "Choose entertainment inspired by familiar Bible stories and created for growing hearts."],
+            ].map(([Icon, title, copy]) => {
+              const BenefitIcon = Icon as typeof Clock3;
+              return <article key={title as string} className="rounded-2xl border border-border bg-background p-7 shadow-sm">
+                <BenefitIcon className="size-7 text-primary" />
+                <h3 className="mt-5 font-display text-xl font-bold">{title as string}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{copy as string}</p>
+              </article>;
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid items-center gap-14 md:grid-cols-[0.85fr_1.15fr]">
+            <div className="overflow-hidden rounded-3xl bg-sky-soft p-4 shadow-xl">
+              <img src={bannerAsset.url} alt="Colorful My Little Bible Adventures collection for Christian family time" className="aspect-[4/5] w-full rounded-2xl object-cover object-[47%_center]" />
+            </div>
+            <div>
+              <p className="text-sm font-bold uppercase text-primary">What your child will discover</p>
+              <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-5xl">Five little adventures in one joyful book.</h2>
+              <p className="mt-6 text-lg leading-8 text-muted-foreground">
+                Friendly animals, expressive characters, and simple coloring scenes make each story feel welcoming. Your child can explore the pages at their own pace while you help connect the pictures to the message behind them.
+              </p>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                {[
+                  [BookOpen, "Story-led pages", "Pictures inspired by beloved moments from the Bible."],
+                  [Palette, "Coloring fun", "Bold, inviting scenes made to spark imagination."],
+                  [BookHeart, "Faith conversations", "A gentle starting point for talking about God together."],
+                  [Gift, "Easy to share", "A thoughtful choice for your own child or a Christian family."],
+                ].map(([Icon, title, copy]) => {
+                  const DetailIcon = Icon as typeof BookOpen;
+                  return <div key={title as string} className="flex gap-4 rounded-xl bg-muted p-4">
+                    <DetailIcon className="mt-0.5 size-5 shrink-0 text-primary" />
+                    <div><h3 className="font-display font-bold">{title as string}</h3><p className="mt-1 text-sm leading-5 text-muted-foreground">{copy as string}</p></div>
+                  </div>;
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-muted px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-sm font-bold uppercase text-primary">Made for real family moments</p>
+          <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">One book, many ways to enjoy it together.</h2>
+          <div className="mt-12 grid gap-10 md:grid-cols-3">
+            {[
+              ["01", "Choose an adventure", "Let your child pick the story or animal that catches their attention first."],
+              ["02", "Color side by side", "Slow down together and bring each scene to life with their favorite colors."],
+              ["03", "Talk about the story", "Ask what they noticed, what they felt, and what the story can teach your family."],
+            ].map(([number, title, copy]) => (
+              <article key={number}>
+                <span className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-primary-foreground">{number}</span>
+                <h3 className="mt-5 font-display text-xl font-bold">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{copy}</p>
+              </article>
+            ))}
+          </div>
+          <Button asChild variant="sunshine" size="purchase" className="mt-12">
+            <a href="#offer">Create Our Faith-Filled Moment — $5.90</a>
+          </Button>
+        </div>
+      </section>
+
+      <section className="px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-3xl">
+          <div className="text-center">
+            <p className="text-sm font-bold uppercase text-primary">Questions from parents</p>
+            <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">Everything you may want to know.</h2>
+          </div>
+          <div className="mt-10 divide-y divide-border border-y border-border">
+            {[
+              ["Who is Bible Animals for?", "It is made for parents, grandparents, caregivers, and Christian families who want a creative, faith-centered activity to enjoy with a child."],
+              ["What does the book include?", "Bible Animals brings together five Bible stories with child-friendly illustrations to color, learn from, and explore together."],
+              ["Does my child need to read independently?", "No. The experience is designed to be shared, so an adult can guide the story and conversation while the child enjoys the illustrations and coloring."],
+              ["When can we use it?", "It can fit naturally into quiet afternoons, family time, Sunday activities, travel, or any moment when you want purposeful entertainment away from a screen."],
+              ["Is this a replacement for a children’s Bible?", "No. It is a creative companion for family faith time, designed to spark curiosity and encourage conversations about Bible stories."],
+              ["Which currencies are accepted?", "The book is offered at the same simple price in either US dollars or euros: $5.90 or €5.90."],
+            ].map(([question, answer]) => (
+              <details key={question} className="group py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-display text-lg font-bold">
+                  {question}<ChevronDown className="size-5 shrink-0 text-primary transition-transform group-open:rotate-180" />
+                </summary>
+                <p className="max-w-2xl pt-3 text-sm leading-6 text-muted-foreground">{answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
