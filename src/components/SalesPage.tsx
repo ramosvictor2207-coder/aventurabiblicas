@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { Link } from "@tanstack/react-router";
 import {
   BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2,
   Heart, Palette, ShieldCheck, Sparkles, Tag, Users,
@@ -21,7 +19,8 @@ const discoverIcons = [BookOpen, Palette, BookHeart, Gift];
 export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurrency: Currency }) {
   const t = content[lang];
   const banner = lang === "es" ? bannerEs : bannerEn;
-  const [currency, setCurrency] = useState<Currency>(initialCurrency);
+  // Idioma e moeda vêm 100% do IP do visitante (detectVisitorLocale), sem opção de troca manual.
+  const currency = initialCurrency;
   const price = (value: number) => (currency === "usd" ? `$${value.toFixed(2)}` : `€${value.toFixed(2)}`);
   const altPrice = (value: number) => (currency === "usd" ? `€${value.toFixed(2)}` : `$${value.toFixed(2)}`);
   const currencyName = currency === "usd" ? "USD" : "EUR";
@@ -29,21 +28,6 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <PurchaseNotifications lang={lang} currency={currency} />
-      <div className="flex justify-center gap-1 bg-muted px-4 py-3">
-        <span className="sr-only">{t.switch.label}</span>
-        {(["en", "es"] as const).map((code) => (
-          <Link
-            key={code}
-            to={code === "en" ? "/en" : "/es"}
-            className={cn(
-              "rounded-full px-4 py-1.5 text-xs font-bold uppercase transition-colors",
-              lang === code ? "bg-primary text-primary-foreground shadow" : "text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {code === "en" ? t.switch.en : t.switch.es}
-          </Link>
-        ))}
-      </div>
 
       <header className="px-5 pb-8 pt-10 text-center sm:px-6 sm:pt-14">
         <span className="inline-flex items-center gap-2 rounded-full bg-sky-soft px-4 py-2 text-xs font-bold uppercase text-primary">
@@ -171,23 +155,6 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
           <p className="font-display text-2xl font-semibold text-primary">{t.offer.brand}</p>
           <h2 className="mt-4 font-display text-4xl font-bold sm:text-5xl">{t.offer.title}</h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{t.offer.subtitle}</p>
-
-          <div className="mt-8 inline-flex items-center gap-1 rounded-full bg-background p-1 shadow-sm" role="group" aria-label={t.offer.currencyLabel}>
-            {([["usd", "USD"], ["eur", "EUR"]] as const).map(([value, label]) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setCurrency(value)}
-                aria-pressed={currency === value}
-                className={cn(
-                  "cursor-pointer rounded-full px-5 py-2 text-xs font-bold uppercase transition-colors",
-                  currency === value ? "bg-primary text-primary-foreground shadow" : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
 
           <div className="mt-9 grid items-stretch gap-6 text-left md:grid-cols-2">
             <article className="relative flex flex-col rounded-3xl border-2 border-primary bg-background p-7 shadow-2xl sm:p-9">
