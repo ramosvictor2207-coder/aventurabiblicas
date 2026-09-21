@@ -36,12 +36,6 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         <h1 className="mx-auto mt-6 max-w-4xl font-display text-4xl font-bold leading-tight sm:text-6xl lg:text-7xl">
           {t.hero.title} <span className="text-primary">{t.hero.titleAccent}</span>
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-xl sm:leading-8">
-          {t.hero.subtitle}
-        </p>
-        <Button asChild variant="sunshine" size="purchase" className="mt-8">
-          <a href="#offer">{t.hero.cta} — {price(PRICE_SINGLE)}</a>
-        </Button>
       </header>
 
       <section className="mx-auto mb-20 max-w-6xl px-4 sm:px-6">
@@ -53,7 +47,16 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
             <p className="mt-1 text-xs font-semibold">{t.hero.bannerNote}</p>
           </div>
         </div>
+        <div className="mx-auto mt-12 max-w-2xl text-center">
+          <p className="text-base leading-7 text-muted-foreground sm:text-xl sm:leading-8">
+            {t.hero.subtitle}
+          </p>
+          <Button asChild variant="sunshine" size="purchase" className="mt-8">
+            <a href="#offer">{t.hero.cta} — {price(PRICE_SINGLE)}</a>
+          </Button>
+        </div>
       </section>
+
 
       <section className="bg-muted px-6 py-16 sm:py-20">
         <div className="mx-auto grid max-w-4xl gap-10 text-center md:grid-cols-3">
