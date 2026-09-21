@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { PurchaseNotifications } from "@/components/PurchaseNotifications";
 import {
   CHECKOUT_SINGLE, PRICE_BUNDLE, PRICE_BUNDLE_FULL, PRICE_SINGLE,
   content, type Currency, type Lang,
@@ -27,6 +28,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
 
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
+      <PurchaseNotifications lang={lang} currency={currency} />
       <div className="flex justify-center gap-1 bg-muted px-4 py-3">
         <span className="sr-only">{t.switch.label}</span>
         {(["en", "es"] as const).map((code) => (
