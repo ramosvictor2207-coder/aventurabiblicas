@@ -2,10 +2,10 @@ export type Lang = "en" | "es";
 export type Currency = "usd" | "eur";
 
 export const CHECKOUT_SINGLE = "https://sun.eduzz.com/1W322XED92";
+export const CHECKOUT_BUNDLE = "https://sun.eduzz.com/7WXGGV2O0A";
 
 export const PRICE_SINGLE = 9.98;
-export const PRICE_BUNDLE = 19.98;
-export const PRICE_BUNDLE_FULL = 49.9;
+export const PRICE_BUNDLE = 17.32;
 
 export const content = {
   en: {
@@ -88,7 +88,7 @@ export const content = {
       brand: "My Little Bible Adventures",
       title: "Bring Bible Animals home today.",
       subtitle:
-        "Start with the first booklet, or bring home the whole collection and give every child a story of their own.",
+        "Start with Bible Animals, or choose two faith-filled adventures with the complete two-book collection.",
       currencyLabel: "Choose your currency",
       one: {
         kicker: "Option one",
@@ -107,16 +107,15 @@ export const content = {
       two: {
         badge: "Best value",
         kicker: "Option two",
-        title: "The Five-Book Collection",
-        copy: "Five booklets from the collection — one for each child, one to share, one to keep.",
-        save: "5 for the price of 2 · Save",
+        title: "The Two-Book Collection",
+        copy: "Two different coloring books that bring beloved Bible stories to life through creativity and faith.",
         bullets: [
-          "5 complete booklets, each with many coloring pages",
-          "Everything in the single booklet, five times over",
-          "Perfect for bigger families and Sunday school",
+          "Bible Animals coloring book",
+          "Bible Heroes coloring book",
+          "Two faith-centered adventures to enjoy together",
         ],
-        note: "Most chosen by families with more than one child, grandparents, and Sunday school teachers.",
-        cta: "Get 5 Booklets —",
+        note: "More stories and more meaningful screen-free moments in one collection.",
+        cta: "Get the 2-Book Collection —",
       },
       inside: {
         title: "Inside every booklet",
@@ -147,7 +146,7 @@ export const content = {
         ["Which currencies are accepted?", "You can pay in US dollars or euros at the same simple price."],
       ] as [string, string][],
       closingTitle: "Still deciding? Start with one booklet.",
-      closingCopy: "Try it for one quiet afternoon, then bring home the collection when you are ready for a story for every child.",
+      closingCopy: "Choose Bible Animals on its own, or get both Bible Animals and Bible Heroes for even more faith-filled moments.",
       closingCta: "See the Two Options",
     },
     footer: {
@@ -235,7 +234,7 @@ export const content = {
       brand: "Mis Pequeñas Aventuras Bíblicas",
       title: "Lleva Animales de la Biblia a tu casa hoy.",
       subtitle:
-        "Empieza con el primer librito o lleva la colección completa y dale a cada niño su propia historia.",
+        "Empieza con Animales de la Biblia o elige dos aventuras llenas de fe con la colección de dos libros.",
       currencyLabel: "Elige tu moneda",
       one: {
         kicker: "Opción uno",
@@ -254,16 +253,15 @@ export const content = {
       two: {
         badge: "Mejor valor",
         kicker: "Opción dos",
-        title: "La colección de 5 libritos",
-        copy: "Cinco libritos de la colección — uno para cada niño, uno para compartir, uno para guardar.",
-        save: "5 por el precio de 2 · Ahorras",
+        title: "Colección de 2 libros",
+        copy: "Dos libros diferentes para colorear que dan vida a historias bíblicas a través de la creatividad y la fe.",
         bullets: [
-          "5 libritos completos, cada uno con muchos dibujos",
-          "Todo lo del librito individual, cinco veces",
-          "Ideal para familias grandes y escuela dominical",
+          "Animales de la Biblia",
+          "Héroes de la Biblia",
+          "Dos aventuras cristianas para disfrutar juntos",
         ],
-        note: "El favorito de familias con más de un niño, abuelos y maestros de escuela dominical.",
-        cta: "Quiero 5 libritos —",
+        note: "Más historias y más momentos con propósito lejos de las pantallas en una sola colección.",
+        cta: "Quiero la colección de 2 libros —",
       },
       inside: {
         title: "Dentro de cada librito",
@@ -294,7 +292,7 @@ export const content = {
         ["¿Qué monedas se aceptan?", "Puedes pagar en dólares o en euros al mismo precio sencillo."],
       ] as [string, string][],
       closingTitle: "¿Todavía lo piensas? Empieza con un librito.",
-      closingCopy: "Pruébalo una tarde tranquila y luego lleva la colección cuando quieras una historia para cada niño.",
+      closingCopy: "Elige Animales de la Biblia o lleva también Héroes de la Biblia para disfrutar aún más momentos llenos de fe.",
       closingCta: "Ver las dos opciones",
     },
     footer: {
