@@ -1,15 +1,23 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { detectVisitorLocale } from "@/lib/geo.functions";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { detectLocaleFromIp } from "@/lib/geo-client";
 
 export const Route = createFileRoute("/")({
-  beforeLoad: async () => {
-    let lang: "en" | "es" = "en";
-    try {
-      lang = (await detectVisitorLocale()).lang;
-    } catch {
-      lang = "en";
-    }
-    throw redirect({ to: lang === "es" ? "/es" : "/en" });
-  },
-  component: () => null,
+  component: IndexRedirect,
 });
+
+function IndexRedirect() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let active = true;
+    detectLocaleFromIp().then(({ lang }) => {
+      if (active) navigate({ to: lang === "es" ? "/es" : "/en", replace: true });
+    });
+    return () => {
+      active = false;
+    };
+  }, [navigate]);
+
+  return null;
+}
