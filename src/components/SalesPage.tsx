@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
   BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2,
-  Heart, Palette, ShieldCheck, Sparkles, Tag, Users,
+  Heart, Palette, ShieldCheck, Sparkles, Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import { detectLocaleFromIp } from "@/lib/geo-client";
 import { withTrackingParams } from "@/lib/utm-forward";
 import { trackAddToCart, trackInitiateCheckout, trackViewContent } from "@/lib/tracking";
 import {
-  CHECKOUT_SINGLE, PRICE_BUNDLE, PRICE_BUNDLE_FULL, PRICE_SINGLE,
+  CHECKOUT_BUNDLE, CHECKOUT_SINGLE, PRICE_BUNDLE, PRICE_SINGLE,
   content, type Currency, type Lang,
 } from "@/lib/content";
 import bannerEn from "@/assets/bible-animals-banner.png.asset.json";
@@ -29,7 +29,8 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
   // sem opção de troca manual. `initialCurrency` só serve de placeholder até a
   // detecção real (rápida, mas assíncrona) terminar.
   const [currency, setCurrency] = useState<Currency>(initialCurrency);
-  const [checkoutHref, setCheckoutHref] = useState(CHECKOUT_SINGLE);
+  const [singleCheckoutHref, setSingleCheckoutHref] = useState(CHECKOUT_SINGLE);
+  const [bundleCheckoutHref, setBundleCheckoutHref] = useState(CHECKOUT_BUNDLE);
 
   useEffect(() => {
     let active = true;
@@ -49,7 +50,8 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
   useEffect(() => {
     // Repassa utm_source/utm_campaign/fbclid etc. da landing page pro checkout
     // da Eduzz, pra Utmify conseguir atribuir a venda à campanha certa.
-    setCheckoutHref(withTrackingParams(CHECKOUT_SINGLE));
+    setSingleCheckoutHref(withTrackingParams(CHECKOUT_SINGLE));
+    setBundleCheckoutHref(withTrackingParams(CHECKOUT_BUNDLE));
   }, []);
 
   useEffect(() => {
@@ -62,11 +64,11 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCheckoutClick = () => {
+  const handleCheckoutClick = (isBundle = false) => {
     const eventPayload = {
-      content_name: "Bible Animals",
-      content_ids: ["bible-animals"],
-      value: PRICE_SINGLE,
+      content_name: isBundle ? "Bible Animals + Bible Heroes" : "Bible Animals",
+      content_ids: isBundle ? ["bible-animals", "bible-heroes"] : ["bible-animals"],
+      value: isBundle ? PRICE_BUNDLE : PRICE_SINGLE,
       currency: (currency === "usd" ? "USD" : "EUR") as "USD" | "EUR",
     };
     trackAddToCart(eventPayload);
@@ -226,7 +228,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               <p className="mt-5 rounded-xl bg-muted px-4 py-3 text-center text-xs font-semibold text-muted-foreground">{t.offer.one.note}</p>
               <div className="mt-auto pt-8">
                 <Button asChild variant="sunshine" size="purchase" className="w-full">
-                  <a href={checkoutHref} target="_blank" rel="noopener noreferrer" onClick={handleCheckoutClick}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
+                   <a href={singleCheckoutHref} target="_blank" rel="noopener noreferrer" onClick={() => handleCheckoutClick()}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
                 </Button>
               </div>
             </article>
@@ -236,11 +238,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               <p className="text-sm font-bold uppercase text-primary">{t.offer.two.kicker}</p>
               <h3 className="mt-2 font-display text-2xl font-bold">{t.offer.two.title}</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{t.offer.two.copy}</p>
-              <p className="mt-6 flex flex-wrap items-end gap-x-3 gap-y-1">
-                <span className="font-display text-5xl font-bold leading-none">{price(PRICE_BUNDLE)}</span>
-                <span className="pb-1.5 text-base font-semibold text-muted-foreground line-through">{price(PRICE_BUNDLE_FULL)}</span>
-              </p>
-              <p className="mt-3 inline-flex w-fit items-center gap-2 rounded-full bg-success-soft px-3 py-1.5 text-xs font-bold uppercase text-success"><Tag className="size-3.5" /> {t.offer.two.save} {price(PRICE_BUNDLE_FULL - PRICE_BUNDLE)}</p>
+              <p className="mt-6 font-display text-5xl font-bold leading-none">{price(PRICE_BUNDLE)}</p>
               <ul className="mt-7 space-y-3 text-sm leading-6">
                 {t.offer.two.bullets.map((item) => (
                   <li key={item} className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-3" /></span>{item}</li>
@@ -248,7 +246,9 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               </ul>
               <p className="mt-5 rounded-xl bg-sky-soft px-4 py-3 text-center text-xs font-semibold text-primary">{t.offer.two.note}</p>
               <div className="mt-auto pt-8">
-                <Button variant="outline" size="purchase" className="w-full">{t.offer.two.cta} {price(PRICE_BUNDLE)}</Button>
+                <Button asChild variant="outline" size="purchase" className="w-full">
+                  <a href={bundleCheckoutHref} target="_blank" rel="noopener noreferrer" onClick={() => handleCheckoutClick(true)}>{t.offer.two.cta} {price(PRICE_BUNDLE)}</a>
+                </Button>
               </div>
             </article>
           </div>

@@ -31,8 +31,8 @@ const TIME_LABELS: Record<Lang, string[]> = {
 
 const VERB: Record<Lang, string> = { en: "just bought", es: "acaba de comprar" };
 const PRODUCT_LABEL: Record<Lang, [string, string]> = {
-  en: ["Bible Animals", "Bible Animals — 5-Pack"],
-  es: ["Animales de la Biblia", "Animales de la Biblia — Colección de 5"],
+  en: ["Bible Animals", "Bible Animals + Bible Heroes"],
+  es: ["Animales de la Biblia", "Animales de la Biblia + Héroes de la Biblia"],
 };
 
 function pick<T>(arr: readonly T[]): T {
