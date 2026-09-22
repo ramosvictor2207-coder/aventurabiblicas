@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import {
   BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2,
   Heart, Palette, ShieldCheck, Sparkles, Tag, Users,
@@ -5,6 +7,9 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { PurchaseNotifications } from "@/components/PurchaseNotifications";
+import { detectLocaleFromIp } from "@/lib/geo-client";
+import { withTrackingParams } from "@/lib/utm-forward";
+import { trackAddToCart, trackInitiateCheckout, trackViewContent } from "@/lib/tracking";
 import {
   CHECKOUT_SINGLE, PRICE_BUNDLE, PRICE_BUNDLE_FULL, PRICE_SINGLE,
   content, type Currency, type Lang,
@@ -19,8 +24,55 @@ const discoverIcons = [BookOpen, Palette, BookHeart, Gift];
 export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurrency: Currency }) {
   const t = content[lang];
   const banner = lang === "es" ? bannerEs : bannerEn;
-  // Idioma e moeda vêm 100% do IP do visitante (detectVisitorLocale), sem opção de troca manual.
-  const currency = initialCurrency;
+  const navigate = useNavigate();
+  // Idioma e moeda vêm 100% do IP do visitante, detectado no navegador dele —
+  // sem opção de troca manual. `initialCurrency` só serve de placeholder até a
+  // detecção real (rápida, mas assíncrona) terminar.
+  const [currency, setCurrency] = useState<Currency>(initialCurrency);
+  const [checkoutHref, setCheckoutHref] = useState(CHECKOUT_SINGLE);
+
+  useEffect(() => {
+    let active = true;
+    detectLocaleFromIp().then((detected) => {
+      if (!active) return;
+      if (detected.lang !== lang) {
+        navigate({ to: detected.lang === "es" ? "/es" : "/en", replace: true });
+        return;
+      }
+      setCurrency(detected.currency);
+    });
+    return () => {
+      active = false;
+    };
+  }, [lang, navigate]);
+
+  useEffect(() => {
+    // Repassa utm_source/utm_campaign/fbclid etc. da landing page pro checkout
+    // da Eduzz, pra Utmify conseguir atribuir a venda à campanha certa.
+    setCheckoutHref(withTrackingParams(CHECKOUT_SINGLE));
+  }, []);
+
+  useEffect(() => {
+    trackViewContent({
+      content_name: "Bible Animals",
+      content_ids: ["bible-animals"],
+      value: PRICE_SINGLE,
+      currency: currency === "usd" ? "USD" : "EUR",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleCheckoutClick = () => {
+    const eventPayload = {
+      content_name: "Bible Animals",
+      content_ids: ["bible-animals"],
+      value: PRICE_SINGLE,
+      currency: (currency === "usd" ? "USD" : "EUR") as "USD" | "EUR",
+    };
+    trackAddToCart(eventPayload);
+    trackInitiateCheckout(eventPayload);
+  };
+
   const price = (value: number) => (currency === "usd" ? `$${value.toFixed(2)}` : `€${value.toFixed(2)}`);
   const altPrice = (value: number) => (currency === "usd" ? `€${value.toFixed(2)}` : `$${value.toFixed(2)}`);
   const currencyName = currency === "usd" ? "USD" : "EUR";
@@ -174,7 +226,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               <p className="mt-5 rounded-xl bg-muted px-4 py-3 text-center text-xs font-semibold text-muted-foreground">{t.offer.one.note}</p>
               <div className="mt-auto pt-8">
                 <Button asChild variant="sunshine" size="purchase" className="w-full">
-                  <a href={CHECKOUT_SINGLE} target="_blank" rel="noopener noreferrer">{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
+                  <a href={checkoutHref} target="_blank" rel="noopener noreferrer" onClick={handleCheckoutClick}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
                 </Button>
               </div>
             </article>
