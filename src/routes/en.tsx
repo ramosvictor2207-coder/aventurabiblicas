@@ -1,19 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SalesPage } from "@/components/SalesPage";
 import { content } from "@/lib/content";
-import { detectVisitorLocale } from "@/lib/geo.functions";
 
 const t = content.en;
 
 export const Route = createFileRoute("/en")({
-  loader: async () => {
-    try {
-      const { currency } = await detectVisitorLocale();
-      return { currency };
-    } catch {
-      return { currency: "usd" as const };
-    }
-  },
   head: () => ({
     meta: [
       { title: t.meta.title },
@@ -24,10 +15,5 @@ export const Route = createFileRoute("/en")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: EnglishPage,
+  component: () => <SalesPage lang="en" initialCurrency="usd" />,
 });
-
-function EnglishPage() {
-  const { currency } = Route.useLoaderData();
-  return <SalesPage lang="en" initialCurrency={currency} />;
-}
