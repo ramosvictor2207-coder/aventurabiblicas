@@ -10,9 +10,12 @@ const EURO_COUNTRIES = new Set([
   "LU", "MT", "NL", "PT", "SK", "SI", "ES", "AD", "MC", "SM", "VA", "ME", "XK",
 ]);
 
-function fallbackFromBrowser(): { lang: Lang; currency: Currency } {
+function fallbackFromBrowser(reason: string): { lang: Lang; currency: Currency } {
   const browserLang = (typeof navigator !== "undefined" ? navigator.language : "").toLowerCase();
-  return { lang: browserLang.startsWith("es") ? "es" : "en", currency: "usd" };
+  const result = { lang: (browserLang.startsWith("es") ? "es" : "en") as Lang, currency: "usd" as Currency };
+  // eslint-disable-next-line no-console
+  console.warn(`[geo] usando fallback do navegador (${reason}). navigator.language="${browserLang}" ->`, result);
+  return result;
 }
 
 /**
@@ -27,28 +30,38 @@ function fallbackFromBrowser(): { lang: Lang; currency: Currency } {
  * silenciosamente e cai em inglês/USD.
  */
 export async function detectLocaleFromIp(): Promise<{ lang: Lang; currency: Currency }> {
-  const providers = ["https://ipapi.co/json/", "https://ipwho.is/"];
+  const providers = ["https://ipapi.co/json/", "https://ipwho.is/", "https://api.country.is/"];
 
   for (const url of providers) {
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 2500);
+      const timeout = setTimeout(() => controller.abort(), 3000);
+      // eslint-disable-next-line no-console
+      console.info(`[geo] consultando ${url}...`);
       const res = await fetch(url, { signal: controller.signal });
       clearTimeout(timeout);
-      if (!res.ok) continue;
+      if (!res.ok) {
+        console.warn(`[geo] ${url} respondeu status ${res.status}`);
+        continue;
+      }
 
       const data = await res.json();
       const country = String(data?.country_code ?? data?.country ?? "").toUpperCase();
+      console.info(`[geo] ${url} respondeu país="${country}"`, data);
       if (!/^[A-Z]{2}$/.test(country)) continue;
 
-      return {
-        lang: SPANISH_COUNTRIES.has(country) ? "es" : "en",
-        currency: EURO_COUNTRIES.has(country) ? "eur" : "usd",
+      const result = {
+        lang: (SPANISH_COUNTRIES.has(country) ? "es" : "en") as Lang,
+        currency: (EURO_COUNTRIES.has(country) ? "eur" : "usd") as Currency,
       };
-    } catch {
-      // tenta o próximo provedor
+      console.info(`[geo] resultado final:`, result);
+      return result;
+    } catch (err) {
+      // Se isso disparar "Content Security Policy" ou "CORS" no console, é
+      // a hospedagem bloqueando a chamada — não um bug deste código.
+      console.warn(`[geo] falha ao consultar ${url}:`, err);
     }
   }
 
-  return fallbackFromBrowser();
+  return fallbackFromBrowser("todos os provedores falharam");
 }
