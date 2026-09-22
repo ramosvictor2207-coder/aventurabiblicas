@@ -7,6 +7,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { PurchaseNotifications } from "@/components/PurchaseNotifications";
+import { ImageMarquee } from "@/components/ImageMarquee";
 import { detectLocaleFromIp } from "@/lib/geo-client";
 import { withTrackingParams } from "@/lib/utm-forward";
 import { trackAddToCart, trackInitiateCheckout, trackViewContent } from "@/lib/tracking";
@@ -16,6 +17,23 @@ import {
 } from "@/lib/content";
 import bannerEn from "@/assets/bible-animals-banner.png.asset.json";
 import bannerEs from "@/assets/bible-animals-banner-es.png.asset.json";
+import noahsArkRainbow from "@/assets/noahs-ark-rainbow.jpeg.asset.json";
+import noahBuildsTheArk from "@/assets/noah-builds-the-ark.jpeg.asset.json";
+import davidProtectsTheSheep from "@/assets/david-protects-the-sheep.png.asset.json";
+import jesusLovesChildren from "@/assets/jesus-loves-children.png.asset.json";
+import jonahGreatStorm from "@/assets/jonah-great-storm.png.asset.json";
+import danielIsBlessed from "@/assets/daniel-is-blessed.webp.asset.json";
+import jonahPreaches from "@/assets/jonah-preaches.webp.asset.json";
+
+const galleryImages = [
+  { src: noahsArkRainbow.url, alt: "Noah's Ark with a rainbow" },
+  { src: noahBuildsTheArk.url, alt: "Noah building the ark" },
+  { src: davidProtectsTheSheep.url, alt: "David protecting the sheep" },
+  { src: jesusLovesChildren.url, alt: "Jesus with the little children" },
+  { src: jonahGreatStorm.url, alt: "Jonah and the great storm" },
+  { src: danielIsBlessed.url, alt: "Daniel blessed in the lions' den" },
+  { src: jonahPreaches.url, alt: "Jonah preaching in Nineveh" },
+];
 
 const featureIcons = [BookOpen, Palette, Heart];
 const parentIcons = [Clock3, Users, Church];
@@ -126,6 +144,15 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
           })}
         </div>
       </section>
+
+      <section className="px-6 pb-4 pt-16 text-center sm:pt-20">
+        <p className="text-sm font-bold uppercase text-primary">{t.gallery.kicker}</p>
+        <h2 className="mx-auto mt-3 max-w-2xl font-display text-2xl font-bold sm:text-4xl">{t.gallery.title}</h2>
+      </section>
+
+      <div className="pb-16 pt-8 sm:pb-20">
+        <ImageMarquee images={galleryImages} />
+      </div>
 
       <section className="px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-4xl text-center">
