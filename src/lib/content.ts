@@ -35,6 +35,10 @@ export const content = {
       ["22 Pages to Color", "Twenty-two illustrations inspired by the stories, drawn for little hands."],
       ["Made for Togetherness", "A simple moment to slow down, connect, and talk about faith as a family."],
     ] as [string, string][],
+    gallery: {
+      kicker: "A Peek Inside",
+      title: "Illustrations your child will love to color",
+    },
     stories: {
       kicker: "Inside Bible Animals",
       title: "Five stories your child will love.",
@@ -181,6 +185,10 @@ export const content = {
       ["22 dibujos para colorear", "Veintidós ilustraciones inspiradas en las historias, hechas para manos pequeñas."],
       ["Pensado para compartir", "Un momento sencillo para bajar el ritmo, conectar y hablar de la fe en familia."],
     ] as [string, string][],
+    gallery: {
+      kicker: "Un Vistazo Por Dentro",
+      title: "Ilustraciones que tu pequeño va a amar colorear",
+    },
     stories: {
       kicker: "Dentro de Animales de la Biblia",
       title: "Cinco historias que tu pequeño va a amar.",
