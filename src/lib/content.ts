@@ -6,6 +6,8 @@ export const CHECKOUT_BUNDLE = "https://sun.eduzz.com/7WXGGV2O0A";
 
 export const PRICE_SINGLE = 9.98;
 export const PRICE_BUNDLE = 17.32;
+export const FULL_PRICE_SINGLE = 24.95;
+export const FULL_PRICE_BUNDLE = 43.30;
 
 export const content = {
   en: {
@@ -19,7 +21,7 @@ export const content = {
         "A joyful way to help little hearts discover God's Word through coloring and story.",
     },
     switch: { label: "Language", en: "English", es: "Español" },
-    promo: { label: "Promotional offer ends today", locale: "en-US" },
+    promo: { label: "60% OFF · Promotional offer ends today", locale: "en-US" },
     hero: {
       badge: "A little adventure with a big purpose",
       title: "Help Your Little One",
@@ -94,6 +96,9 @@ export const content = {
       title: "Bring Bible Animals home today.",
       subtitle:
         "Start with Bible Animals, or choose two faith-filled adventures with the complete two-book collection.",
+      discount: "60% OFF TODAY",
+      was: "Was",
+      now: "Now",
       currencyLabel: "Choose your currency",
       one: {
         kicker: "Option one",
@@ -170,7 +175,7 @@ export const content = {
         "Una forma alegre de ayudar a los pequeños corazones a descubrir la Palabra de Dios coloreando.",
     },
     switch: { label: "Idioma", en: "English", es: "Español" },
-    promo: { label: "La oferta promocional termina hoy", locale: "es-ES" },
+    promo: { label: "60% DE DESCUENTO · La oferta promocional termina hoy", locale: "es-ES" },
     hero: {
       badge: "Una pequeña aventura con un gran propósito",
       title: "Ayuda a tu pequeño a",
@@ -245,6 +250,9 @@ export const content = {
       title: "Lleva Animales de la Biblia a tu casa hoy.",
       subtitle:
         "Empieza con Animales de la Biblia o elige dos aventuras llenas de fe con la colección de dos libros.",
+      discount: "60% DE DESCUENTO HOY",
+      was: "Antes",
+      now: "Ahora",
       currencyLabel: "Elige tu moneda",
       one: {
         kicker: "Opción uno",
