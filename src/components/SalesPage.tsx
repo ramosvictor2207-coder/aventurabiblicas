@@ -83,7 +83,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCheckoutClick = (isBundle = false) => {
+  const goToCheckout = (href: string, isBundle = false) => {
     const eventPayload = {
       content_name: isBundle ? "Bible Animals + Bible Heroes" : "Bible Animals",
       content_ids: isBundle ? ["bible-animals", "bible-heroes"] : ["bible-animals"],
@@ -92,6 +92,12 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
     };
     trackAddToCart(eventPayload);
     trackInitiateCheckout(eventPayload);
+    // Navegação via location.href (não via <a href>): o pixel da Utmify
+    // intercepta cliques em links que apontam pra checkout da Eduzz e tenta
+    // "recriar" o clique com um evento sintético — que o navegador recusa a
+    // seguir (proteção anti-bot). Indo direto por aqui, a navegação nunca
+    // depende do comportamento nativo do link nem passa por esse sequestro.
+    window.location.href = href;
   };
 
   const price = (value: number) => (currency === "usd" ? `$${value.toFixed(2)}` : `€${value.toFixed(2)}`);
@@ -103,8 +109,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
       <PurchaseNotifications lang={lang} currency={currency} />
       <StickyMobileCta
         label={`${t.hero.cta} — ${price(PRICE_SINGLE)}`}
-        href={singleCheckoutHref}
-        onClick={() => handleCheckoutClick()}
+        onClick={() => goToCheckout(singleCheckoutHref)}
       />
 
       <header className="px-5 pb-8 pt-10 text-center sm:px-6 sm:pt-14">
@@ -260,8 +265,8 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               </ul>
               <p className="mt-5 rounded-xl bg-muted px-4 py-3 text-center text-xs font-semibold text-muted-foreground">{t.offer.one.note}</p>
               <div className="mt-auto pt-8">
-                <Button asChild variant="sunshine" size="purchase" className="w-full">
-                   <a href={singleCheckoutHref} onClick={() => handleCheckoutClick()}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
+                <Button variant="sunshine" size="purchase" className="w-full" onClick={() => goToCheckout(singleCheckoutHref)}>
+                  {t.offer.one.cta} {price(PRICE_SINGLE)}
                 </Button>
               </div>
             </article>
@@ -279,8 +284,8 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               </ul>
               <p className="mt-5 rounded-xl bg-sky-soft px-4 py-3 text-center text-xs font-semibold text-primary">{t.offer.two.note}</p>
               <div className="mt-auto pt-8">
-                <Button asChild variant="outline" size="purchase" className="w-full">
-                  <a href={bundleCheckoutHref} onClick={() => handleCheckoutClick(true)}>{t.offer.two.cta} {price(PRICE_BUNDLE)}</a>
+                <Button variant="outline" size="purchase" className="w-full" onClick={() => goToCheckout(bundleCheckoutHref, true)}>
+                  {t.offer.two.cta} {price(PRICE_BUNDLE)}
                 </Button>
               </div>
             </article>
