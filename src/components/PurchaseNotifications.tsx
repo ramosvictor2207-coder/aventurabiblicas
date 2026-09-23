@@ -93,7 +93,7 @@ export function PurchaseNotifications({ lang, currency }: { lang: Lang; currency
       role="status"
       aria-live="polite"
       className={cn(
-        "pointer-events-none fixed bottom-4 left-4 z-50 flex max-w-[calc(100vw-2rem)] items-center gap-3 rounded-2xl border border-border bg-background p-3.5 pr-4 shadow-2xl transition-all duration-500 sm:max-w-sm",
+        "pointer-events-none fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-3 z-50 flex max-w-[calc(100vw-1.5rem)] items-center gap-2.5 rounded-2xl border border-border bg-background p-2.5 pr-3 sm:bottom-4 sm:left-4 sm:gap-3 sm:p-3.5 sm:pr-4 shadow-2xl transition-all duration-500 sm:max-w-sm",
         visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
       )}
     >
