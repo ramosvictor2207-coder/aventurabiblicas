@@ -93,8 +93,8 @@ export function PurchaseNotifications({ lang, currency }: { lang: Lang; currency
       role="status"
       aria-live="polite"
       className={cn(
-        "fixed bottom-4 left-4 z-50 flex max-w-[calc(100vw-2rem)] items-center gap-3 rounded-2xl border border-border bg-background p-3.5 pr-4 shadow-2xl transition-all duration-500 sm:max-w-sm",
-        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0",
+        "pointer-events-none fixed bottom-4 left-4 z-50 flex max-w-[calc(100vw-2rem)] items-center gap-3 rounded-2xl border border-border bg-background p-3.5 pr-4 shadow-2xl transition-all duration-500 sm:max-w-sm",
+        visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
       )}
     >
       <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-success-soft text-success">
@@ -113,7 +113,7 @@ export function PurchaseNotifications({ lang, currency }: { lang: Lang; currency
         type="button"
         aria-label={lang === "es" ? "Cerrar" : "Dismiss"}
         onClick={() => setDismissed(true)}
-        className="shrink-0 rounded-full p-1 text-muted-foreground/60 transition-colors hover:bg-muted hover:text-foreground"
+        className="pointer-events-auto shrink-0 rounded-full p-1 text-muted-foreground/60 transition-colors hover:bg-muted hover:text-foreground"
       >
         <X className="size-4" />
       </button>
