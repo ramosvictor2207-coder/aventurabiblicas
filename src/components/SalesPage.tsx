@@ -135,7 +135,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
   const currencyName = currency === "usd" ? "USD" : "EUR";
 
   return (
-    <main className="min-h-screen overflow-hidden bg-background text-foreground">
+    <main className="min-h-dvh overflow-x-clip bg-background text-foreground">
       <PurchaseNotifications lang={lang} currency={currency} />
 
       <div className="bg-urgent px-4 py-3 text-urgent-foreground shadow-md">
@@ -145,11 +145,11 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         </div>
       </div>
 
-      <header className="px-5 pb-8 pt-10 text-center sm:px-6 sm:pt-14">
+      <header className="px-4 pb-8 pt-8 text-center sm:px-6 sm:pt-14">
         <span className="inline-flex items-center gap-2 rounded-full bg-sky-soft px-4 py-2 text-xs font-bold uppercase text-primary">
           <Sparkles className="size-4" /> {t.hero.badge}
         </span>
-        <h1 className="mx-auto mt-6 max-w-4xl font-display text-4xl font-bold leading-tight sm:text-6xl lg:text-7xl">
+        <h1 className="mx-auto mt-6 max-w-4xl break-words font-display text-[2rem] font-bold leading-tight min-[380px]:text-4xl sm:text-6xl lg:text-7xl">
           {t.hero.title} <span className="text-primary">{t.hero.titleAccent}</span>
         </h1>
       </header>
@@ -157,25 +157,25 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
       <section className="mx-auto mb-20 max-w-6xl px-4 sm:px-6">
         <div className="relative">
           <img src={banner.url} alt={t.hero.bannerAlt} className="aspect-[3/2] w-full rounded-3xl object-cover shadow-2xl" />
-          <div className="absolute -bottom-7 right-3 rotate-3 rounded-2xl bg-urgent p-4 text-urgent-foreground shadow-xl sm:right-8 sm:p-6">
+          <div className="absolute -bottom-6 right-2 max-w-[55%] rotate-3 rounded-2xl bg-urgent p-3 text-urgent-foreground shadow-xl sm:-bottom-7 sm:right-8 sm:max-w-none sm:p-6">
             <p className="text-xs font-bold uppercase">{t.hero.startingAt}</p>
             <p className="mt-1 text-sm font-bold opacity-80 line-through">{price(FULL_PRICE_SINGLE)}</p>
-            <p className="font-display text-3xl font-bold leading-none sm:text-4xl">{price(PRICE_SINGLE)}</p>
+            <p className="font-display text-2xl font-bold leading-none min-[380px]:text-3xl sm:text-4xl">{price(PRICE_SINGLE)}</p>
             <p className="mt-1 text-xs font-semibold">{t.hero.bannerNote}</p>
           </div>
         </div>
-        <div className="mx-auto mt-12 max-w-2xl text-center">
+        <div className="mx-auto mt-14 max-w-2xl text-center sm:mt-12">
           <p className="text-base leading-7 text-muted-foreground sm:text-xl sm:leading-8">
             {t.hero.subtitle}
           </p>
-          <Button asChild variant="purchase" size="purchase" className="mt-8">
+          <Button asChild variant="purchase" size="purchase" className="mt-8 w-full sm:w-auto">
             <a href="#offer">{t.hero.cta} — {price(PRICE_SINGLE)}</a>
           </Button>
         </div>
       </section>
 
 
-      <section className="bg-muted px-6 py-16 sm:py-20">
+      <section className="bg-muted px-5 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto grid max-w-4xl gap-10 text-center md:grid-cols-3">
           {t.features.map(([title, copy], i) => {
             const Icon = featureIcons[i]!;
@@ -190,36 +190,36 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         </div>
       </section>
 
-      <section className="px-6 pb-4 pt-16 text-center sm:pt-20">
+      <section className="px-5 pb-4 pt-14 text-center sm:px-6 sm:pt-20">
         <p className="text-sm font-bold uppercase text-primary">{t.gallery.kicker}</p>
-        <h2 className="mx-auto mt-3 max-w-2xl font-display text-2xl font-bold sm:text-4xl">{t.gallery.title}</h2>
+        <h2 className="mx-auto mt-3 max-w-2xl break-words font-display text-2xl font-bold sm:text-4xl">{t.gallery.title}</h2>
       </section>
 
       <div className="pb-16 pt-8 sm:pb-20">
         <ImageMarquee images={galleryImages} />
       </div>
 
-      <section className="px-6 py-20 sm:py-24">
+      <section className="px-5 py-16 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-sm font-bold uppercase text-primary">{t.stories.kicker}</p>
-          <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">{t.stories.title}</h2>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{t.stories.intro}</p>
+          <h2 className="mt-3 break-words font-display text-[1.65rem] font-bold min-[380px]:text-3xl sm:text-5xl">{t.stories.title}</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{t.stories.intro}</p>
           <ul className="mt-10 grid gap-4 text-left sm:grid-cols-2">
             {t.stories.list.map((story, i) => (
               <li key={story} className="flex items-center gap-4 rounded-2xl border border-border bg-muted p-5">
                 <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary font-display text-sm font-bold text-primary-foreground">{i + 1}</span>
-                <span className="font-display text-lg font-bold">{story}</span>
+                <span className="font-display text-base font-bold sm:text-lg">{story}</span>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl items-center gap-14 px-6 pb-20 md:grid-cols-2 md:pb-24">
+      <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 sm:px-6 md:grid-cols-2 md:gap-14 md:pb-24">
         <div>
           <p className="text-sm font-bold uppercase text-primary">{t.product.kicker}</p>
-          <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-5xl">{t.product.title}</h2>
-          <p className="mt-6 text-lg leading-8 text-muted-foreground">{t.product.copy}</p>
+          <h2 className="mt-3 break-words font-display text-[1.65rem] font-bold leading-tight min-[380px]:text-3xl sm:text-5xl">{t.product.title}</h2>
+          <p className="mt-6 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{t.product.copy}</p>
           <ul className="mt-7 space-y-4">
             {t.product.bullets.map((item) => (
               <li key={item} className="flex items-center gap-3 font-medium"><span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-4" /></span>{item}</li>
@@ -231,12 +231,12 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         </div>
       </section>
 
-      <section className="border-y border-border bg-secondary px-6 py-20 sm:py-24">
+      <section className="border-y border-border bg-secondary px-5 py-16 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-bold uppercase text-primary">{t.parents.kicker}</p>
-            <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-5xl">{t.parents.title}</h2>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">{t.parents.copy}</p>
+            <h2 className="mt-3 break-words font-display text-[1.65rem] font-bold leading-tight min-[380px]:text-3xl sm:text-5xl">{t.parents.title}</h2>
+            <p className="mt-6 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{t.parents.copy}</p>
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {t.parents.items.map(([title, copy], i) => {
@@ -253,16 +253,16 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         </div>
       </section>
 
-      <section className="px-6 py-20 sm:py-24">
+      <section className="px-5 py-16 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-6xl">
-          <div className="grid items-center gap-14 md:grid-cols-[0.85fr_1.15fr]">
+          <div className="grid items-center gap-10 md:gap-14 md:grid-cols-[0.85fr_1.15fr]">
             <div className="overflow-hidden rounded-3xl bg-sky-soft p-4 shadow-xl">
               <img src={banner.url} alt={t.discover.imageAlt} className="aspect-[4/5] w-full rounded-2xl object-cover object-[47%_center]" />
             </div>
             <div>
               <p className="text-sm font-bold uppercase text-primary">{t.discover.kicker}</p>
-              <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-5xl">{t.discover.title}</h2>
-              <p className="mt-6 text-lg leading-8 text-muted-foreground">{t.discover.copy}</p>
+              <h2 className="mt-3 break-words font-display text-[1.65rem] font-bold leading-tight min-[380px]:text-3xl sm:text-5xl">{t.discover.title}</h2>
+              <p className="mt-6 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{t.discover.copy}</p>
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 {t.discover.items.map(([title, copy], i) => {
                   const Icon = discoverIcons[i]!;
@@ -279,17 +279,17 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         </div>
       </section>
 
-      <section id="offer" className="bg-sky-soft px-5 py-20 sm:px-6 sm:py-24">
+      <section id="offer" className="scroll-mt-4 bg-sky-soft px-4 py-16 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-5xl text-center">
           <p className="font-display text-2xl font-semibold text-primary">{t.offer.brand}</p>
           <p className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full bg-urgent px-4 py-2 text-xs font-extrabold uppercase text-urgent-foreground shadow-md">
             <Timer className="size-4" /> {t.offer.discount}
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold sm:text-5xl">{t.offer.title}</h2>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{t.offer.subtitle}</p>
+          <h2 className="mt-4 break-words font-display text-3xl font-bold min-[380px]:text-4xl sm:text-5xl">{t.offer.title}</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{t.offer.subtitle}</p>
 
           <div className="mt-9 grid items-stretch gap-6 text-left md:grid-cols-2">
-            <article className="relative flex flex-col rounded-3xl border-2 border-urgent bg-background p-7 shadow-2xl sm:p-9">
+            <article className="relative flex flex-col rounded-3xl border-2 border-urgent bg-background p-5 shadow-2xl min-[380px]:p-7 sm:p-9">
               <p className="text-sm font-bold uppercase text-urgent">{t.offer.one.kicker}</p>
               <h3 className="mt-2 font-display text-2xl font-bold">{t.offer.one.title}</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{t.offer.one.copy}</p>
@@ -297,7 +297,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
                 <p className="pb-1 text-sm font-bold text-muted-foreground"><span className="uppercase">{t.offer.was}</span> <span className="line-through">{price(FULL_PRICE_SINGLE)}</span></p>
                 <span className="rounded-md bg-urgent-soft px-2 py-1 text-xs font-extrabold text-urgent">-60%</span>
               </div>
-              <p className="mt-2 font-display text-5xl font-bold leading-none text-urgent"><span className="mr-2 align-middle text-xs font-extrabold uppercase">{t.offer.now}</span>{price(PRICE_SINGLE)}</p>
+              <p className="mt-2 font-display text-4xl font-bold leading-none text-urgent min-[380px]:text-5xl"><span className="mr-2 align-middle text-xs font-extrabold uppercase">{t.offer.now}</span>{price(PRICE_SINGLE)}</p>
               <p className="mt-2 text-xs font-semibold uppercase text-muted-foreground">{t.offer.one.payment} {altPrice(PRICE_SINGLE)}</p>
               <ul className="mt-7 space-y-3 text-sm leading-6">
                 {t.offer.one.bullets.map((item) => (
@@ -312,7 +312,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               </div>
             </article>
 
-            <article className="relative flex flex-col rounded-3xl border-2 border-urgent bg-background p-7 pb-9 shadow-xl sm:p-9">
+            <article className="relative flex flex-col rounded-3xl border-2 border-urgent bg-background p-5 pb-8 shadow-xl min-[380px]:p-7 min-[380px]:pb-9 sm:p-9">
               <span className="absolute -top-4 left-7 rounded-full bg-urgent px-4 py-1.5 text-xs font-bold uppercase text-urgent-foreground shadow-lg">{t.offer.two.badge}</span>
               <p className="text-sm font-bold uppercase text-urgent">{t.offer.two.kicker}</p>
               <h3 className="mt-2 font-display text-2xl font-bold">{t.offer.two.title}</h3>
@@ -321,7 +321,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
                 <p className="pb-1 text-sm font-bold text-muted-foreground"><span className="uppercase">{t.offer.was}</span> <span className="line-through">{price(FULL_PRICE_BUNDLE)}</span></p>
                 <span className="rounded-md bg-urgent-soft px-2 py-1 text-xs font-extrabold text-urgent">-60%</span>
               </div>
-              <p className="mt-2 font-display text-5xl font-bold leading-none text-urgent"><span className="mr-2 align-middle text-xs font-extrabold uppercase">{t.offer.now}</span>{price(PRICE_BUNDLE)}</p>
+              <p className="mt-2 font-display text-4xl font-bold leading-none text-urgent min-[380px]:text-5xl"><span className="mr-2 align-middle text-xs font-extrabold uppercase">{t.offer.now}</span>{price(PRICE_BUNDLE)}</p>
               <ul className="mt-7 space-y-3 text-sm leading-6">
                 {t.offer.two.bullets.map((item) => (
                   <li key={item} className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-3" /></span>{item}</li>
@@ -349,10 +349,10 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         </div>
       </section>
 
-      <section className="bg-muted px-6 py-20 sm:py-24">
+      <section className="bg-muted px-5 py-16 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-bold uppercase text-primary">{t.steps.kicker}</p>
-          <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">{t.steps.title}</h2>
+          <h2 className="mt-3 break-words font-display text-[1.65rem] font-bold min-[380px]:text-3xl sm:text-5xl">{t.steps.title}</h2>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
             {t.steps.items.map(([number, title, copy]) => (
               <article key={number}>
@@ -362,22 +362,22 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               </article>
             ))}
           </div>
-          <Button asChild variant="purchase" size="purchase" className="mt-12">
+          <Button asChild variant="purchase" size="purchase" className="mt-12 w-full sm:w-auto">
             <a href="#offer">{t.steps.cta} — {price(PRICE_SINGLE)}</a>
           </Button>
         </div>
       </section>
 
-      <section className="px-6 py-20 sm:py-24">
+      <section className="px-5 py-16 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-3xl">
           <div className="text-center">
             <p className="text-sm font-bold uppercase text-primary">{t.faq.kicker}</p>
-            <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">{t.faq.title}</h2>
+            <h2 className="mt-3 break-words font-display text-[1.65rem] font-bold min-[380px]:text-3xl sm:text-5xl">{t.faq.title}</h2>
           </div>
           <div className="mt-10 divide-y divide-border border-y border-border">
             {t.faq.items.map(([question, answer]) => (
               <details key={question} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-display text-lg font-bold">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-bold sm:gap-5 sm:text-lg">
                   {question}<ChevronDown className="size-5 shrink-0 text-primary transition-transform group-open:rotate-180" />
                 </summary>
                 <p className="max-w-2xl pt-3 text-sm leading-6 text-muted-foreground">{answer}</p>
@@ -387,14 +387,14 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
           <div className="mt-12 text-center">
             <p className="font-display text-2xl font-bold">{t.faq.closingTitle}</p>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">{t.faq.closingCopy}</p>
-            <Button asChild variant="purchase" size="purchase" className="mt-7">
+            <Button asChild variant="purchase" size="purchase" className="mt-7 w-full sm:w-auto">
               <a href="#offer">{t.faq.closingCta}</a>
             </Button>
           </div>
         </div>
       </section>
 
-      <footer className="bg-footer px-6 py-12 text-center text-footer-foreground">
+      <footer className="bg-footer px-5 py-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] text-center text-footer-foreground sm:px-6 sm:py-12">
         <p className="font-display text-2xl font-bold">{t.footer.title}</p>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-6 opacity-70">{t.footer.copy}</p>
       </footer>
