@@ -12,6 +12,8 @@ const buttonVariants = cva(
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         sunshine:
           "bg-primary text-primary-foreground shadow-[var(--shadow-button)] hover:-translate-y-0.5 hover:bg-primary/90 active:translate-y-0",
+        purchase:
+          "bg-cta text-cta-foreground shadow-[0_14px_28px_color-mix(in_oklab,var(--cta)_30%,transparent)] hover:-translate-y-0.5 hover:bg-cta/90 active:translate-y-0",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
