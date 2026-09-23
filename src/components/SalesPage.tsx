@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
   BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2,
@@ -100,6 +100,34 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
     };
     trackAddToCart(eventPayload);
     trackInitiateCheckout(eventPayload);
+  };
+
+  // Leva o visitante ao checkout da Eduzz de forma explícita (via JavaScript),
+  // em vez de depender só do comportamento padrão do <a>. Assim, se algum
+  // script de terceiros (Pixel, Utmify, navegador embutido do Instagram/Facebook)
+  // interferir no clique, a navegação ainda acontece. O href continua no <a>
+  // como plano B (SEO, clique com botão direito, abrir em nova aba).
+  const goToCheckout = (
+    event: ReactMouseEvent<HTMLAnchorElement>,
+    baseUrl: string,
+    isBundle = false,
+  ) => {
+    // Deixa o navegador agir normalmente em Ctrl/Cmd+clique, clique do meio etc.
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    event.preventDefault();
+    try {
+      handleCheckoutClick(isBundle);
+    } catch (err) {
+      console.warn("[checkout] falha ao disparar eventos de tracking:", err);
+    }
+
+    // URL montada NO MOMENTO do clique, já com as UTMs atuais.
+    const url = withTrackingParams(baseUrl);
+    // Pequeno respiro para o Pixel enviar o evento antes de sair da página.
+    window.setTimeout(() => {
+      window.location.assign(url);
+    }, 150);
   };
 
   const price = (value: number) => (currency === "usd" ? `$${value.toFixed(2)}` : `€${value.toFixed(2)}`);
@@ -279,7 +307,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               <p className="mt-5 rounded-xl bg-muted px-4 py-3 text-center text-xs font-semibold text-muted-foreground">{t.offer.one.note}</p>
               <div className="mt-auto pt-8">
                 <Button asChild variant="purchase" size="purchase" className="w-full">
-                   <a href={singleCheckoutHref} onClick={() => handleCheckoutClick()}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
+                   <a href={singleCheckoutHref} onClick={(e) => goToCheckout(e, CHECKOUT_SINGLE)}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
                 </Button>
               </div>
             </article>
@@ -302,7 +330,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               <p className="mt-5 rounded-xl bg-sky-soft px-4 py-3 text-center text-xs font-semibold text-primary">{t.offer.two.note}</p>
               <div className="mt-auto pt-8">
                 <Button asChild variant="purchase" size="purchase" className="w-full">
-                  <a href={bundleCheckoutHref} onClick={() => handleCheckoutClick(true)}>{t.offer.two.cta} {price(PRICE_BUNDLE)}</a>
+                  <a href={bundleCheckoutHref} onClick={(e) => goToCheckout(e, CHECKOUT_BUNDLE, true)}>{t.offer.two.cta} {price(PRICE_BUNDLE)}</a>
                 </Button>
               </div>
             </article>
