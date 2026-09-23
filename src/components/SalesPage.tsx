@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
   BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2,
-  Heart, Palette, ShieldCheck, Sparkles, Users,
+  Heart, Palette, ShieldCheck, Sparkles, Timer, Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -49,6 +49,15 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
   const [currency, setCurrency] = useState<Currency>(initialCurrency);
   const [singleCheckoutHref, setSingleCheckoutHref] = useState(CHECKOUT_SINGLE);
   const [bundleCheckoutHref, setBundleCheckoutHref] = useState(CHECKOUT_BUNDLE);
+  const [today, setToday] = useState("");
+
+  useEffect(() => {
+    setToday(new Intl.DateTimeFormat(t.promo.locale, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date()));
+  }, [t.promo.locale]);
 
   useEffect(() => {
     let active = true;
@@ -100,6 +109,13 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <PurchaseNotifications lang={lang} currency={currency} />
+
+      <div className="bg-footer px-4 py-3 text-footer-foreground">
+        <div className="mx-auto flex max-w-6xl items-center justify-center gap-2 text-center text-xs font-bold sm:text-sm">
+          <Timer className="size-4 shrink-0 text-accent" aria-hidden="true" />
+          <span>{t.promo.label}{today ? ` — ${today}` : ""}</span>
+        </div>
+      </div>
 
       <header className="px-5 pb-8 pt-10 text-center sm:px-6 sm:pt-14">
         <span className="inline-flex items-center gap-2 rounded-full bg-sky-soft px-4 py-2 text-xs font-bold uppercase text-primary">
