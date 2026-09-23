@@ -127,6 +127,22 @@ function RootComponent() {
     initPixels();
   }, []);
 
+  useEffect(() => {
+    // Quando o visitante clica em "voltar" depois de ir pro checkout externo
+    // (Eduzz), o navegador costuma restaurar a página do bfcache — uma
+    // versão "congelada" de como ela estava antes de sair — em vez de
+    // recarregar de verdade. Isso deixa efeitos/estado presos e botões
+    // parando de responder. Forçamos um reload nesse caso pra garantir que
+    // a página volte 100% funcional.
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
