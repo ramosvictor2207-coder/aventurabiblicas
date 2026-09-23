@@ -279,7 +279,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               <p className="mt-5 rounded-xl bg-muted px-4 py-3 text-center text-xs font-semibold text-muted-foreground">{t.offer.one.note}</p>
               <div className="mt-auto pt-8">
                 <Button asChild variant="purchase" size="purchase" className="w-full">
-                   <a href={singleCheckoutHref} target="_blank" rel="noopener noreferrer" onClick={() => handleCheckoutClick()}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
+                   <a href={singleCheckoutHref} onClick={() => handleCheckoutClick()}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
                 </Button>
               </div>
             </article>
@@ -302,7 +302,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               <p className="mt-5 rounded-xl bg-sky-soft px-4 py-3 text-center text-xs font-semibold text-primary">{t.offer.two.note}</p>
               <div className="mt-auto pt-8">
                 <Button asChild variant="purchase" size="purchase" className="w-full">
-                  <a href={bundleCheckoutHref} target="_blank" rel="noopener noreferrer" onClick={() => handleCheckoutClick(true)}>{t.offer.two.cta} {price(PRICE_BUNDLE)}</a>
+                  <a href={bundleCheckoutHref} onClick={() => handleCheckoutClick(true)}>{t.offer.two.cta} {price(PRICE_BUNDLE)}</a>
                 </Button>
               </div>
             </article>
