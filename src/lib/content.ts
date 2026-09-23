@@ -19,6 +19,7 @@ export const content = {
         "A joyful way to help little hearts discover God's Word through coloring and story.",
     },
     switch: { label: "Language", en: "English", es: "Español" },
+    promo: { label: "Promotional offer ends today", locale: "en-US" },
     hero: {
       badge: "A little adventure with a big purpose",
       title: "Help Your Little One",
@@ -169,6 +170,7 @@ export const content = {
         "Una forma alegre de ayudar a los pequeños corazones a descubrir la Palabra de Dios coloreando.",
     },
     switch: { label: "Idioma", en: "English", es: "Español" },
+    promo: { label: "La oferta promocional termina hoy", locale: "es-ES" },
     hero: {
       badge: "Una pequeña aventura con un gran propósito",
       title: "Ayuda a tu pequeño a",
