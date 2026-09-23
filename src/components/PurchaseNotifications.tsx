@@ -5,22 +5,62 @@ import { PRICE_BUNDLE, PRICE_SINGLE, type Currency, type Lang } from "@/lib/cont
 
 // Nomes comuns nos mercados de língua inglesa e espanhola (EUA, México, Espanha, Peru, Colômbia, etc.)
 const NAMES = [
-  "Giovanni", "Sofía", "Michael", "Camila", "John", "Valentina", "Carlos",
-  "Emma", "Lucas", "Isabella", "Daniel", "Mariana", "James", "Ana",
-  "Matthew", "Lucía", "David", "Fernanda", "Andrés", "Olivia", "Diego",
-  "Grace", "Santiago", "Chloe", "Miguel", "Regina", "Thomas", "Renata",
-  "Joseph", "Ximena",
+  "Giovanni",
+  "Sofía",
+  "Michael",
+  "Camila",
+  "John",
+  "Valentina",
+  "Carlos",
+  "Emma",
+  "Lucas",
+  "Isabella",
+  "Daniel",
+  "Mariana",
+  "James",
+  "Ana",
+  "Matthew",
+  "Lucía",
+  "David",
+  "Fernanda",
+  "Andrés",
+  "Olivia",
+  "Diego",
+  "Grace",
+  "Santiago",
+  "Chloe",
+  "Miguel",
+  "Regina",
+  "Thomas",
+  "Renata",
+  "Joseph",
+  "Ximena",
 ] as const;
 
 // Localidades por idioma — combina países de fala inglesa e espanhola
 const LOCATIONS: Record<Lang, string[]> = {
   en: [
-    "United States", "Canada", "United Kingdom", "Australia", "Texas, US",
-    "California, US", "Florida, US", "New York, US", "Ireland",
+    "United States",
+    "Canada",
+    "United Kingdom",
+    "Australia",
+    "Texas, US",
+    "California, US",
+    "Florida, US",
+    "New York, US",
+    "Ireland",
   ],
   es: [
-    "Perú", "México", "España", "Colombia", "Argentina", "Chile",
-    "Ecuador", "Bolivia", "Paraguay", "Uruguay",
+    "Perú",
+    "México",
+    "España",
+    "Colombia",
+    "Argentina",
+    "Chile",
+    "Ecuador",
+    "Bolivia",
+    "Paraguay",
+    "Uruguay",
   ],
 };
 
@@ -66,15 +106,18 @@ export function PurchaseNotifications({ lang, currency }: { lang: Lang; currency
     let cycleTimeout: ReturnType<typeof setTimeout>;
 
     const cycle = (isFirst: boolean) => {
-      showTimeout = setTimeout(() => {
-        setCurrent(buildNotification(lang, currency));
-        setVisible(true);
+      showTimeout = setTimeout(
+        () => {
+          setCurrent(buildNotification(lang, currency));
+          setVisible(true);
 
-        hideTimeout = setTimeout(() => {
-          setVisible(false);
-          cycleTimeout = setTimeout(() => cycle(false), 4000 + Math.random() * 4000);
-        }, 5000);
-      }, isFirst ? 4000 : 0);
+          hideTimeout = setTimeout(() => {
+            setVisible(false);
+            cycleTimeout = setTimeout(() => cycle(false), 4000 + Math.random() * 4000);
+          }, 5000);
+        },
+        isFirst ? 4000 : 0,
+      );
     };
 
     cycle(true);
@@ -102,10 +145,12 @@ export function PurchaseNotifications({ lang, currency }: { lang: Lang; currency
       </span>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-bold leading-tight">
-          {current.name} <span className="font-normal text-muted-foreground">· {current.location}</span>
+          {current.name}{" "}
+          <span className="font-normal text-muted-foreground">· {current.location}</span>
         </p>
         <p className="mt-0.5 truncate text-xs leading-tight text-muted-foreground">
-          {VERB[lang]} <span className="font-semibold text-foreground">{current.product}</span> — {current.price}
+          {VERB[lang]} <span className="font-semibold text-foreground">{current.product}</span> —{" "}
+          {current.price}
         </p>
         <p className="mt-0.5 text-[11px] font-medium text-muted-foreground/70">{current.time}</p>
       </div>
