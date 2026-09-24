@@ -206,17 +206,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         <div className="mx-auto w-full max-w-[340px] sm:max-w-[400px]">
           <WistiaVideo />
         </div>
-        <div className="mx-auto mt-6 w-fit rounded-2xl bg-urgent p-4 text-center text-urgent-foreground shadow-xl sm:p-5">
-          <p className="text-xs font-bold uppercase">{t.hero.startingAt}</p>
-          <p className="mt-1 text-sm font-bold opacity-80 line-through">
-            {price(FULL_PRICE_SINGLE)}
-          </p>
-          <p className="font-display text-3xl font-bold leading-none sm:text-4xl">
-            {price(PRICE_SINGLE)}
-          </p>
-          <p className="mt-1 text-xs font-semibold">{t.hero.bannerNote}</p>
-        </div>
-        <div className="mx-auto mt-8 max-w-2xl text-center sm:mt-10">
+        <div className="mx-auto mt-10 max-w-2xl text-center sm:mt-12">
           <p className="text-base leading-7 text-muted-foreground sm:text-xl sm:leading-8">
             {t.hero.subtitle}
           </p>
