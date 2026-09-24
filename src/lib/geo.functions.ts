@@ -6,6 +6,11 @@ const SPANISH_COUNTRIES = new Set([
   "PY", "SV", "NI", "CR", "PA", "UY", "PR", "GQ",
 ]);
 
+const ENGLISH_COUNTRIES = new Set([
+  "US", "GB", "CA", "AU", "NZ", "IE", "ZA", "JM", "TT", "BS", "BB", "BZ",
+  "GY", "AG", "DM", "GD", "KN", "LC", "VC", "PH",
+]);
+
 const EURO_COUNTRIES = new Set([
   "AT", "BE", "HR", "CY", "EE", "FI", "FR", "DE", "GR", "IE", "IT", "LV", "LT",
   "LU", "MT", "NL", "PT", "SK", "SI", "ES", "AD", "MC", "SM", "VA", "ME", "XK",
