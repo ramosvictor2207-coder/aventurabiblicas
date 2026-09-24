@@ -6,6 +6,11 @@ const SPANISH_COUNTRIES = new Set([
   "PY", "SV", "NI", "CR", "PA", "UY", "PR", "GQ",
 ]);
 
+const ENGLISH_COUNTRIES = new Set([
+  "US", "GB", "CA", "AU", "NZ", "IE", "ZA", "JM", "TT", "BS", "BB", "BZ",
+  "GY", "AG", "DM", "GD", "KN", "LC", "VC", "PH",
+]);
+
 const EURO_COUNTRIES = new Set([
   "AT", "BE", "HR", "CY", "EE", "FI", "FR", "DE", "GR", "IE", "IT", "LV", "LT",
   "LU", "MT", "NL", "PT", "SK", "SI", "ES", "AD", "MC", "SM", "VA", "ME", "XK",
@@ -70,8 +75,14 @@ export const detectVisitorLocale = createServerFn({ method: "GET" }).handler(asy
 
   const acceptLanguage = (getRequestHeader("accept-language") || "").toLowerCase();
 
+  // Espanhol é o idioma padrão do site. Inglês só quando o país é claramente
+  // anglófono ou, sem país, o navegador prefere inglês.
   const lang: "en" | "es" =
-    SPANISH_COUNTRIES.has(country) || (!country && acceptLanguage.startsWith("es")) ? "es" : "en";
+    SPANISH_COUNTRIES.has(country) ||
+    (!country && !acceptLanguage.startsWith("en")) ||
+    (Boolean(country) && !ENGLISH_COUNTRIES.has(country))
+      ? "es"
+      : "en";
 
   const currency: "usd" | "eur" = EURO_COUNTRIES.has(country) ? "eur" : "usd";
 
