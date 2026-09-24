@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
 import {
   BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2,
   Heart, Palette, ShieldCheck, Sparkles, Timer, Users,
@@ -8,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { PurchaseNotifications } from "@/components/PurchaseNotifications";
 import { ImageMarquee } from "@/components/ImageMarquee";
 import { StickyMobileCta } from "@/components/StickyMobileCta";
-import { detectLocaleFromIp } from "@/lib/geo-client";
 import { withTrackingParams } from "@/lib/utm-forward";
 import { trackAddToCart, trackInitiateCheckout, trackViewContent } from "@/lib/tracking";
 import {
@@ -42,10 +40,6 @@ const discoverIcons = [BookOpen, Palette, BookHeart, Gift];
 export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurrency: Currency }) {
   const t = content[lang];
   const banner = lang === "es" ? bannerEs : bannerEn;
-  const navigate = useNavigate();
-  // Idioma e moeda vêm 100% do IP do visitante, detectado no navegador dele —
-  // sem opção de troca manual. `initialCurrency` só serve de placeholder até a
-  // detecção real (rápida, mas assíncrona) terminar.
   const [currency, setCurrency] = useState<Currency>(initialCurrency);
   const [singleCheckoutHref, setSingleCheckoutHref] = useState(CHECKOUT_SINGLE);
   const [bundleCheckoutHref, setBundleCheckoutHref] = useState(CHECKOUT_BUNDLE);
@@ -58,21 +52,6 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
       year: "numeric",
     }).format(new Date()));
   }, [t.promo.locale]);
-
-  useEffect(() => {
-    let active = true;
-    detectLocaleFromIp().then((detected) => {
-      if (!active) return;
-      if (detected.lang !== lang) {
-        navigate({ to: detected.lang === "es" ? "/es" : "/en", replace: true });
-        return;
-      }
-      setCurrency(detected.currency);
-    });
-    return () => {
-      active = false;
-    };
-  }, [lang, navigate]);
 
   useEffect(() => {
     // Repassa utm_source/utm_campaign/fbclid etc. da landing page pro checkout
@@ -261,6 +240,23 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
           <p className="font-display text-2xl font-semibold text-primary">{t.offer.brand}</p>
           <h2 className="mt-4 font-display text-4xl font-bold sm:text-5xl">{t.offer.title}</h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{t.offer.subtitle}</p>
+
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <span className="text-xs font-bold uppercase text-muted-foreground">{t.offer.currencyLabel}</span>
+            <div className="inline-flex rounded-lg border border-border bg-background p-1 shadow-sm" role="group" aria-label={t.offer.currencyLabel}>
+              {(["usd", "eur"] as const).map((option) => (
+                <Button
+                  key={option}
+                  variant={currency === option ? "default" : "ghost"}
+                  size="sm"
+                  aria-pressed={currency === option}
+                  onClick={() => setCurrency(option)}
+                >
+                  {option === "usd" ? "$ USD" : "€ EUR"}
+                </Button>
+              ))}
+            </div>
+          </div>
 
           <div className="mt-9 grid items-stretch gap-6 text-left md:grid-cols-2">
             <article className="relative flex flex-col rounded-3xl border-2 border-urgent bg-background p-7 shadow-2xl sm:p-9">
