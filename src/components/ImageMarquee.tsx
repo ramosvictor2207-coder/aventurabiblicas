@@ -21,6 +21,9 @@ export function ImageMarquee({ images }: { images: MarqueeImage[] }) {
             src={img.src}
             alt={img.alt}
             loading="lazy"
+            decoding="async"
+            width="360"
+            height="240"
             draggable={false}
             className="h-32 w-auto shrink-0 rounded-2xl object-cover shadow-xl min-[420px]:h-36 sm:h-52 lg:h-60"
           />

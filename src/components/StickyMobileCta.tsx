@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button";
  */
 export function StickyMobileCta({
   label,
+  href,
   onClick,
 }: {
   label: string;
+  href: string;
   onClick: () => void;
 }) {
   const [visible, setVisible] = useState(false);
@@ -35,8 +37,8 @@ export function StickyMobileCta({
         visible ? "translate-y-0" : "pointer-events-none translate-y-full"
       }`}
     >
-      <Button variant="sunshine" size="purchase" className="w-full" onClick={onClick}>
-        {label}
+      <Button asChild variant="purchase" size="purchase" className="w-full">
+        <a href={href} onClick={onClick}>{label}</a>
       </Button>
     </div>
   );

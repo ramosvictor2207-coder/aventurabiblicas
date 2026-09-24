@@ -178,6 +178,8 @@
 
 html { scroll-behavior: smooth; }
 
+#offer { scroll-margin-top: 1rem; }
+
 @keyframes marquee-rtl {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }

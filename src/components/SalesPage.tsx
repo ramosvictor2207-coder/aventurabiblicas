@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
 import {
   BookHeart, BookOpen, Check, ChevronDown, Church, Clock3, Gift, Globe2,
-  Heart, Palette, ShieldCheck, Sparkles, Users,
+  Heart, Palette, ShieldCheck, Sparkles, Timer, Users,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { PurchaseNotifications } from "@/components/PurchaseNotifications";
 import { ImageMarquee } from "@/components/ImageMarquee";
 import { StickyMobileCta } from "@/components/StickyMobileCta";
-import { detectLocaleFromIp } from "@/lib/geo-client";
 import { withTrackingParams } from "@/lib/utm-forward";
 import { trackAddToCart, trackInitiateCheckout, trackViewContent } from "@/lib/tracking";
 import {
-  CHECKOUT_BUNDLE, CHECKOUT_SINGLE, PRICE_BUNDLE, PRICE_SINGLE,
+  CHECKOUT_BUNDLE, CHECKOUT_SINGLE, FULL_PRICE_BUNDLE, FULL_PRICE_SINGLE, PRICE_BUNDLE, PRICE_SINGLE,
   content, type Currency, type Lang,
 } from "@/lib/content";
 import bannerEn from "@/assets/bible-animals-banner.png.asset.json";
@@ -43,28 +40,18 @@ const discoverIcons = [BookOpen, Palette, BookHeart, Gift];
 export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurrency: Currency }) {
   const t = content[lang];
   const banner = lang === "es" ? bannerEs : bannerEn;
-  const navigate = useNavigate();
-  // Idioma e moeda vêm 100% do IP do visitante, detectado no navegador dele —
-  // sem opção de troca manual. `initialCurrency` só serve de placeholder até a
-  // detecção real (rápida, mas assíncrona) terminar.
   const [currency, setCurrency] = useState<Currency>(initialCurrency);
   const [singleCheckoutHref, setSingleCheckoutHref] = useState(CHECKOUT_SINGLE);
   const [bundleCheckoutHref, setBundleCheckoutHref] = useState(CHECKOUT_BUNDLE);
+  const [today, setToday] = useState(lang === "es" ? "hoy" : "today");
 
   useEffect(() => {
-    let active = true;
-    detectLocaleFromIp().then((detected) => {
-      if (!active) return;
-      if (detected.lang !== lang) {
-        navigate({ to: detected.lang === "es" ? "/es" : "/en", replace: true });
-        return;
-      }
-      setCurrency(detected.currency);
-    });
-    return () => {
-      active = false;
-    };
-  }, [lang, navigate]);
+    setToday(new Intl.DateTimeFormat(t.promo.locale, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date()));
+  }, [t.promo.locale]);
 
   useEffect(() => {
     // Repassa utm_source/utm_campaign/fbclid etc. da landing page pro checkout
@@ -83,7 +70,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const goToCheckout = (href: string, isBundle = false) => {
+  const trackCheckout = (isBundle = false) => {
     const eventPayload = {
       content_name: isBundle ? "Bible Animals + Bible Heroes" : "Bible Animals",
       content_ids: isBundle ? ["bible-animals", "bible-heroes"] : ["bible-animals"],
@@ -92,12 +79,6 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
     };
     trackAddToCart(eventPayload);
     trackInitiateCheckout(eventPayload);
-    // Navegação via location.href (não via <a href>): o pixel da Utmify
-    // intercepta cliques em links que apontam pra checkout da Eduzz e tenta
-    // "recriar" o clique com um evento sintético — que o navegador recusa a
-    // seguir (proteção anti-bot). Indo direto por aqui, a navegação nunca
-    // depende do comportamento nativo do link nem passa por esse sequestro.
-    window.location.href = href;
   };
 
   const price = (value: number) => (currency === "usd" ? `$${value.toFixed(2)}` : `€${value.toFixed(2)}`);
@@ -109,10 +90,19 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
       <PurchaseNotifications lang={lang} currency={currency} />
       <StickyMobileCta
         label={`${t.hero.cta} — ${price(PRICE_SINGLE)}`}
-        onClick={() => goToCheckout(singleCheckoutHref)}
+        href={singleCheckoutHref}
+        onClick={() => trackCheckout(false)}
       />
 
-      <header className="px-5 pb-8 pt-10 text-center sm:px-6 sm:pt-14">
+      <div className="bg-urgent px-3 py-2.5 text-center text-urgent-foreground shadow-md" role="status">
+        <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-xs font-bold uppercase sm:text-sm">
+          <Timer className="size-4 shrink-0" aria-hidden="true" />
+          <span>{t.promo.label}</span>
+          <span className="font-semibold normal-case opacity-95">— {today}</span>
+        </p>
+      </div>
+
+      <header className="px-5 pb-8 pt-8 text-center sm:px-6 sm:pt-12">
         <span className="inline-flex items-center gap-2 rounded-full bg-sky-soft px-4 py-2 text-xs font-bold uppercase text-primary">
           <Sparkles className="size-4" /> {t.hero.badge}
         </span>
@@ -123,7 +113,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
 
       <section className="mx-auto mb-20 max-w-6xl px-4 sm:px-6">
         <div className="relative">
-          <img src={banner.url} alt={t.hero.bannerAlt} className="aspect-[3/2] w-full rounded-3xl object-cover shadow-2xl" />
+          <img src={banner.url} alt={t.hero.bannerAlt} fetchPriority="high" decoding="async" className="aspect-[3/2] w-full rounded-3xl object-cover shadow-2xl" />
           <div className="absolute -bottom-7 right-3 rotate-3 rounded-2xl bg-accent p-4 text-accent-foreground shadow-xl sm:right-8 sm:p-6">
             <p className="text-xs font-bold uppercase">{t.hero.startingAt}</p>
             <p className="font-display text-3xl font-bold leading-none sm:text-4xl">{price(PRICE_SINGLE)}</p>
@@ -134,7 +124,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
           <p className="text-base leading-7 text-muted-foreground sm:text-xl sm:leading-8">
             {t.hero.subtitle}
           </p>
-          <Button asChild variant="sunshine" size="purchase" className="mt-8">
+          <Button asChild variant="purchase" size="purchase" className="mt-8">
             <a href="#offer">{t.hero.cta} — {price(PRICE_SINGLE)}</a>
           </Button>
         </div>
@@ -193,7 +183,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
           </ul>
         </div>
         <div className="overflow-hidden rounded-3xl bg-sky-soft p-4 shadow-xl sm:p-7">
-          <img src={banner.url} alt={t.product.imageAlt} className="aspect-square w-full rounded-2xl object-cover object-center" />
+            <img src={banner.url} alt={t.product.imageAlt} loading="lazy" decoding="async" className="aspect-square w-full rounded-2xl object-cover object-center" />
         </div>
       </section>
 
@@ -223,7 +213,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
         <div className="mx-auto max-w-6xl">
           <div className="grid items-center gap-14 md:grid-cols-[0.85fr_1.15fr]">
             <div className="overflow-hidden rounded-3xl bg-sky-soft p-4 shadow-xl">
-              <img src={banner.url} alt={t.discover.imageAlt} className="aspect-[4/5] w-full rounded-2xl object-cover object-[47%_center]" />
+              <img src={banner.url} alt={t.discover.imageAlt} loading="lazy" decoding="async" className="aspect-[4/5] w-full rounded-2xl object-cover object-[47%_center]" />
             </div>
             <div>
               <p className="text-sm font-bold uppercase text-primary">{t.discover.kicker}</p>
@@ -251,12 +241,31 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
           <h2 className="mt-4 font-display text-4xl font-bold sm:text-5xl">{t.offer.title}</h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{t.offer.subtitle}</p>
 
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <span className="text-xs font-bold uppercase text-muted-foreground">{t.offer.currencyLabel}</span>
+            <div className="inline-flex rounded-lg border border-border bg-background p-1 shadow-sm" role="group" aria-label={t.offer.currencyLabel}>
+              {(["usd", "eur"] as const).map((option) => (
+                <Button
+                  key={option}
+                  variant={currency === option ? "default" : "ghost"}
+                  size="sm"
+                  aria-pressed={currency === option}
+                  onClick={() => setCurrency(option)}
+                >
+                  {option === "usd" ? "$ USD" : "€ EUR"}
+                </Button>
+              ))}
+            </div>
+          </div>
+
           <div className="mt-9 grid items-stretch gap-6 text-left md:grid-cols-2">
-            <article className="relative flex flex-col rounded-3xl border-2 border-primary bg-background p-7 shadow-2xl sm:p-9">
+            <article className="relative flex flex-col rounded-3xl border-2 border-urgent bg-background p-7 shadow-2xl sm:p-9">
+              <span className="absolute -top-4 right-6 rounded-full bg-urgent px-4 py-1.5 text-xs font-bold text-urgent-foreground shadow-lg">{t.offer.discount}</span>
               <p className="text-sm font-bold uppercase text-primary">{t.offer.one.kicker}</p>
               <h3 className="mt-2 font-display text-2xl font-bold">{t.offer.one.title}</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{t.offer.one.copy}</p>
-              <p className="mt-6 font-display text-5xl font-bold leading-none">{price(PRICE_SINGLE)}</p>
+              <p className="mt-6 text-sm font-bold text-urgent"><span className="text-muted-foreground line-through">{t.offer.was} {price(FULL_PRICE_SINGLE)}</span> · {t.offer.now}</p>
+              <p className="mt-1 font-display text-5xl font-bold leading-none">{price(PRICE_SINGLE)}</p>
               <p className="mt-2 text-xs font-semibold uppercase text-muted-foreground">{t.offer.one.payment} {altPrice(PRICE_SINGLE)}</p>
               <ul className="mt-7 space-y-3 text-sm leading-6">
                 {t.offer.one.bullets.map((item) => (
@@ -265,18 +274,19 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               </ul>
               <p className="mt-5 rounded-xl bg-muted px-4 py-3 text-center text-xs font-semibold text-muted-foreground">{t.offer.one.note}</p>
               <div className="mt-auto pt-8">
-                <Button variant="sunshine" size="purchase" className="w-full" onClick={() => goToCheckout(singleCheckoutHref)}>
-                  {t.offer.one.cta} {price(PRICE_SINGLE)}
+                <Button asChild variant="purchase" size="purchase" className="w-full">
+                  <a href={singleCheckoutHref} onClick={() => trackCheckout(false)}>{t.offer.one.cta} {price(PRICE_SINGLE)}</a>
                 </Button>
               </div>
             </article>
 
             <article className="relative flex flex-col rounded-3xl bg-background p-7 pb-9 shadow-xl sm:p-9">
-              <span className="absolute -top-4 left-7 rounded-full bg-accent px-4 py-1.5 text-xs font-bold uppercase text-accent-foreground shadow-lg">{t.offer.two.badge}</span>
+              <span className="absolute -top-4 left-7 rounded-full bg-urgent px-4 py-1.5 text-xs font-bold uppercase text-urgent-foreground shadow-lg">{t.offer.two.badge}</span>
               <p className="text-sm font-bold uppercase text-primary">{t.offer.two.kicker}</p>
               <h3 className="mt-2 font-display text-2xl font-bold">{t.offer.two.title}</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{t.offer.two.copy}</p>
-              <p className="mt-6 font-display text-5xl font-bold leading-none">{price(PRICE_BUNDLE)}</p>
+              <p className="mt-6 text-sm font-bold text-urgent"><span className="text-muted-foreground line-through">{t.offer.was} {price(FULL_PRICE_BUNDLE)}</span> · {t.offer.now}</p>
+              <p className="mt-1 font-display text-5xl font-bold leading-none">{price(PRICE_BUNDLE)}</p>
               <ul className="mt-7 space-y-3 text-sm leading-6">
                 {t.offer.two.bullets.map((item) => (
                   <li key={item} className="flex items-start gap-3"><span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success"><Check className="size-3" /></span>{item}</li>
@@ -284,8 +294,8 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               </ul>
               <p className="mt-5 rounded-xl bg-sky-soft px-4 py-3 text-center text-xs font-semibold text-primary">{t.offer.two.note}</p>
               <div className="mt-auto pt-8">
-                <Button variant="outline" size="purchase" className="w-full" onClick={() => goToCheckout(bundleCheckoutHref, true)}>
-                  {t.offer.two.cta} {price(PRICE_BUNDLE)}
+                <Button asChild variant="purchase" size="purchase" className="w-full">
+                  <a href={bundleCheckoutHref} onClick={() => trackCheckout(true)}>{t.offer.two.cta} {price(PRICE_BUNDLE)}</a>
                 </Button>
               </div>
             </article>
@@ -317,7 +327,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
               </article>
             ))}
           </div>
-          <Button asChild variant="sunshine" size="purchase" className="mt-12">
+          <Button asChild variant="purchase" size="purchase" className="mt-12">
             <a href="#offer">{t.steps.cta} — {price(PRICE_SINGLE)}</a>
           </Button>
         </div>
@@ -342,7 +352,7 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
           <div className="mt-12 text-center">
             <p className="font-display text-2xl font-bold">{t.faq.closingTitle}</p>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">{t.faq.closingCopy}</p>
-            <Button asChild variant="sunshine" size="purchase" className="mt-7">
+            <Button asChild variant="purchase" size="purchase" className="mt-7">
               <a href="#offer">{t.faq.closingCta}</a>
             </Button>
           </div>
