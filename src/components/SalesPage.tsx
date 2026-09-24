@@ -1,5 +1,4 @@
 import { useEffect, useState, type MouseEvent as ReactMouseEvent } from "react";
-import { useNavigate } from "@tanstack/react-router";
 import {
   BookHeart,
   BookOpen,
@@ -64,7 +63,6 @@ const discoverIcons = [BookOpen, Palette, BookHeart, Gift];
 export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurrency: Currency }) {
   const t = content[lang];
   const banner = lang === "es" ? bannerEs : bannerEn;
-  const navigate = useNavigate();
   // Idioma e moeda vêm 100% do IP do visitante, detectado no navegador dele —
   // sem opção de troca manual. `initialCurrency` só serve de placeholder até a
   // detecção real (rápida, mas assíncrona) terminar.
@@ -87,16 +85,14 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
     let active = true;
     detectLocaleFromIp().then((detected) => {
       if (!active) return;
-      if (detected.lang !== lang) {
-        navigate({ to: detected.lang === "es" ? "/es" : "/en", replace: true });
-        return;
-      }
+      // O idioma é definido pela URL ("/" e "/es" = espanhol, "/en" = inglês).
+      // A detecção por IP só escolhe a moeda (USD ou EUR).
       setCurrency(detected.currency);
     });
     return () => {
       active = false;
     };
-  }, [lang, navigate]);
+  }, []);
 
   useEffect(() => {
     // Repassa utm_source/utm_campaign/fbclid etc. da landing page pro checkout
