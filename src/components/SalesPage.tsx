@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { PurchaseNotifications } from "@/components/PurchaseNotifications";
 import { ImageMarquee } from "@/components/ImageMarquee";
+import { WistiaVideo } from "@/components/WistiaVideo";
 import { detectLocaleFromIp } from "@/lib/geo-client";
 import { withTrackingParams } from "@/lib/utm-forward";
 import { trackAddToCart, trackInitiateCheckout, trackViewContent } from "@/lib/tracking";
@@ -202,24 +203,20 @@ export function SalesPage({ lang, initialCurrency }: { lang: Lang; initialCurren
       </header>
 
       <section className="mx-auto mb-20 max-w-6xl px-4 sm:px-6">
-        <div className="relative">
-          <img
-            src={banner.url}
-            alt={t.hero.bannerAlt}
-            className="aspect-[3/2] w-full rounded-3xl object-cover shadow-2xl"
-          />
-          <div className="absolute -bottom-6 right-2 max-w-[55%] rotate-3 rounded-2xl bg-urgent p-3 text-urgent-foreground shadow-xl sm:-bottom-7 sm:right-8 sm:max-w-none sm:p-6">
-            <p className="text-xs font-bold uppercase">{t.hero.startingAt}</p>
-            <p className="mt-1 text-sm font-bold opacity-80 line-through">
-              {price(FULL_PRICE_SINGLE)}
-            </p>
-            <p className="font-display text-2xl font-bold leading-none min-[380px]:text-3xl sm:text-4xl">
-              {price(PRICE_SINGLE)}
-            </p>
-            <p className="mt-1 text-xs font-semibold">{t.hero.bannerNote}</p>
-          </div>
+        <div className="mx-auto w-full max-w-[340px] sm:max-w-[400px]">
+          <WistiaVideo />
         </div>
-        <div className="mx-auto mt-14 max-w-2xl text-center sm:mt-12">
+        <div className="mx-auto mt-6 w-fit rounded-2xl bg-urgent p-4 text-center text-urgent-foreground shadow-xl sm:p-5">
+          <p className="text-xs font-bold uppercase">{t.hero.startingAt}</p>
+          <p className="mt-1 text-sm font-bold opacity-80 line-through">
+            {price(FULL_PRICE_SINGLE)}
+          </p>
+          <p className="font-display text-3xl font-bold leading-none sm:text-4xl">
+            {price(PRICE_SINGLE)}
+          </p>
+          <p className="mt-1 text-xs font-semibold">{t.hero.bannerNote}</p>
+        </div>
+        <div className="mx-auto mt-8 max-w-2xl text-center sm:mt-10">
           <p className="text-base leading-7 text-muted-foreground sm:text-xl sm:leading-8">
             {t.hero.subtitle}
           </p>
