@@ -70,8 +70,14 @@ export const detectVisitorLocale = createServerFn({ method: "GET" }).handler(asy
 
   const acceptLanguage = (getRequestHeader("accept-language") || "").toLowerCase();
 
+  // Espanhol é o idioma padrão do site. Inglês só quando o país é claramente
+  // anglófono ou, sem país, o navegador prefere inglês.
   const lang: "en" | "es" =
-    SPANISH_COUNTRIES.has(country) || (!country && acceptLanguage.startsWith("es")) ? "es" : "en";
+    SPANISH_COUNTRIES.has(country) ||
+    (!country && !acceptLanguage.startsWith("en")) ||
+    (Boolean(country) && !ENGLISH_COUNTRIES.has(country))
+      ? "es"
+      : "en";
 
   const currency: "usd" | "eur" = EURO_COUNTRIES.has(country) ? "eur" : "usd";
 
