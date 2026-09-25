@@ -6,8 +6,8 @@ export const CHECKOUT_BUNDLE = "https://sun.eduzz.com/7WXGGV2O0A";
 
 export const GUARANTEE_DAYS = 7; // ⚠️ deixe igual ao prazo de garantia configurado na Eduzz
 
-export const PRICE_SINGLE = 9.98;
-export const PRICE_BUNDLE = 17.32;
+export const PRICE_SINGLE = 4.99;
+export const PRICE_BUNDLE = 8.66;
 export const FULL_PRICE_SINGLE = 24.95;
 export const FULL_PRICE_BUNDLE = 43.3;
 
